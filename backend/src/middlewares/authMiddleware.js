@@ -1,4 +1,4 @@
-const { supabaseAuth, supabaseAdmin } = require('../config/supabase');
+const { createUserClient, hasServiceRole, supabaseAuth, supabaseAdmin } = require('../config/supabase');
 
 // Middleware xác thực token từ Supabase
 const requireAuth = async (req, res, next) => {
@@ -21,7 +21,13 @@ const requireAuth = async (req, res, next) => {
     }
 
     // Truy vấn role từ bảng public.users (Được tạo tự động qua Trigger khi đăng ký)
-    const { data: userData, error: userError } = await supabaseAdmin
+    const profileClient = hasServiceRole ? supabaseAdmin : createUserClient(token);
+
+    if (!profileClient) {
+      return res.status(500).json({ error: 'Server chưa được cấu hình Supabase.' });
+    }
+
+    const { data: userData, error: userError } = await profileClient
       .from('users')
       .select('role')
       .eq('id', user.id)

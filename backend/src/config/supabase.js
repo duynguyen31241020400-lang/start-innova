@@ -20,16 +20,26 @@ if (!supabaseServiceRoleKey) {
   console.warn("Thiếu SUPABASE_SERVICE_ROLE_KEY. Các API quản trị có thể bị chặn bởi RLS.");
 }
 
-const createSupabaseClient = (key) => {
+const createSupabaseClient = (key, options = {}) => {
   if (!supabaseUrl || !key) {
     return null;
   }
 
-  return createClient(supabaseUrl, key, clientOptions);
+  return createClient(supabaseUrl, key, {
+    ...clientOptions,
+    ...options
+  });
 };
 
 const supabaseAuth = createSupabaseClient(supabaseAnonKey);
 const supabaseAdmin = createSupabaseClient(supabaseServiceRoleKey || supabaseAnonKey);
+const createUserClient = (token) => createSupabaseClient(supabaseAnonKey, {
+  global: {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+});
 
 if (!supabaseAuth || !supabaseAdmin) {
   console.error("Không thể khởi tạo Supabase client. Kiểm tra lại biến môi trường.");
@@ -41,5 +51,6 @@ module.exports = {
   supabase,
   supabaseAuth,
   supabaseAdmin,
+  createUserClient,
   hasServiceRole: Boolean(supabaseServiceRoleKey)
 };
