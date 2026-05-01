@@ -3,14 +3,14 @@ const { supabaseAuth, supabaseAdmin } = require('../config/supabase');
 // Middleware xác thực token từ Supabase
 const requireAuth = async (req, res, next) => {
   try {
-    if (!supabaseAuth || !supabaseAdmin) {
-      return res.status(500).json({ error: 'Server chưa được cấu hình Supabase.' });
-    }
-
     const token = req.headers.authorization?.replace(/^Bearer\s+/i, '');
     
     if (!token) {
       return res.status(401).json({ error: 'Không tìm thấy token đăng nhập. Vui lòng thêm Bearer Token.' });
+    }
+
+    if (!supabaseAuth || !supabaseAdmin) {
+      return res.status(500).json({ error: 'Server chưa được cấu hình Supabase.' });
     }
 
     // Xác thực token với Supabase
