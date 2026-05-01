@@ -13,3 +13,5 @@ frontend-config.js
 
 .DS_Store
 Thumbs.db
+
+.vercel
