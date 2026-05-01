@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Start Innova</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0A0A0A;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+    </style>
+</head>
+<body class="min-h-screen antialiased selection:bg-purple-500 selection:text-white">
+    <header class="border-b border-white/10 bg-[#0A0A0A]/90">
+        <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+            <a href="index.html" class="flex items-center gap-4">
+                <img src="startinnova (9).png" alt="Start Innova Logo" class="h-12 w-auto object-contain">
+                <span class="hidden text-sm font-semibold text-gray-300 sm:inline">Member Dashboard</span>
+            </a>
+            <div class="flex items-center gap-3">
+                <a id="admin-link" href="admin.html" hidden class="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10">Admin</a>
+                <button id="logout-button" type="button" class="rounded-lg bg-white/10 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/15">Dang xuat</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="mx-auto grid max-w-7xl gap-6 px-4 py-8 sm:px-6 lg:grid-cols-[320px_1fr] lg:px-8">
+        <section class="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-blue-300">Tai khoan</p>
+            <h1 id="profile-name" class="mt-3 text-2xl font-bold text-white">Dang tai...</h1>
+            <div class="mt-6 space-y-4 text-sm">
+                <div>
+                    <p class="text-gray-500">Email</p>
+                    <p id="profile-email" class="mt-1 break-all font-medium text-gray-200">-</p>
+                </div>
+                <div>
+                    <p class="text-gray-500">Role</p>
+                    <p id="profile-role" class="mt-1 inline-flex rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 font-semibold text-blue-200">-</p>
+                </div>
+                <div>
+                    <p class="text-gray-500">User ID</p>
+                    <p id="profile-id" class="mt-1 break-all font-mono text-xs text-gray-300">-</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="space-y-6">
+            <div id="dashboard-message" hidden></div>
+
+            <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+                <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+                    <div>
+                        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-purple-300">Noi bo</p>
+                        <h2 class="mt-2 text-2xl font-bold text-white">Club Data</h2>
+                    </div>
+                </div>
+                <div id="club-message" hidden class="mt-5"></div>
+                <ul id="club-data-list" class="mt-5 grid gap-3 md:grid-cols-2"></ul>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="frontend-config.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/dashboard.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,15 @@
+node_modules/
+npm-debug.log*
+
+.env
+.env.*
+!.env.example
+
+backend/node_modules/
+backend/.env
+
+frontend-config.js
+!frontend-config.example.js
+
+.DS_Store
+Thumbs.db

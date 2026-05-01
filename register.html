@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký - Start Innova</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0A0A0A;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        .glow-hover {
+            transition: all 0.3s ease;
+        }
+        .glow-hover:hover {
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.7), 0 0 50px rgba(139, 92, 246, 0.5);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-purple-500 selection:text-white min-h-screen flex items-center justify-center relative py-12">
+    
+    <!-- Background Decorative Gradients -->
+    <div class="fixed top-0 right-0 w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[120px] -z-10"></div>
+    <div class="fixed bottom-0 left-0 w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[120px] -z-10"></div>
+
+    <div class="w-full max-w-xl px-4 sm:px-6">
+        <!-- Back to Home -->
+        <a href="index.html" class="inline-flex items-center text-gray-400 hover:text-white transition-colors mb-6 text-sm font-medium">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Quay lại trang chủ
+        </a>
+
+        <!-- Form Container -->
+        <div class="bg-white/[0.03] backdrop-blur-xl border border-white/[0.08] rounded-3xl p-8 sm:p-10 shadow-2xl">
+            <!-- Logos -->
+            <div class="flex justify-center items-center gap-5 mb-8">
+                <img src="startinnova (9).png" alt="Start Innova Logo" style="height: 50px;" class="w-auto object-contain opacity-90" onerror="this.src='https://placehold.co/200x50/0A0A0A/FFFFFF?text=STARTINNOVA'"/>
+                <div class="h-8 w-px bg-white/20"></div>
+                <img src="UEH-ISB.png" alt="UEH ISB Logo" style="height: 50px;" class="w-auto object-contain opacity-90 bg-white/95 p-1.5 rounded-2xl shadow-sm" onerror="this.src='https://placehold.co/120x42/FFFFFF/000000?text=UEH+ISB'"/>
+            </div>
+
+            <h2 class="text-3xl font-bold text-center mb-2">Gia nhập Start Innova</h2>
+            <p class="text-gray-400 text-center mb-8">Trở thành một phần của thế hệ Khởi nghiệp tiên phong</p>
+
+            <form id="register-form" action="#" method="POST" class="space-y-5">
+                <!-- Row 1: Tên + MSSV -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div>
+                        <label for="fullname" class="block text-sm font-medium text-gray-300 mb-2">Họ và tên</label>
+                        <input type="text" id="fullname" class="w-full px-5 py-3.5 rounded-xl bg-black/50 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors" placeholder="Nguyễn Văn A" required>
+                    </div>
+                    <div>
+                        <label for="mssv" class="block text-sm font-medium text-gray-300 mb-2">MSSV</label>
+                        <input type="text" id="mssv" class="w-full px-5 py-3.5 rounded-xl bg-black/50 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors" placeholder="312010... " required>
+                    </div>
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-300 mb-2">Email UEH-ISB</label>
+                    <input type="email" id="email" class="w-full px-5 py-3.5 rounded-xl bg-black/50 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors" placeholder="mssv@student.ueh.edu.vn" required>
+                </div>
+                
+                <!-- Row 2: Passwords -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-300 mb-2">Mật khẩu</label>
+                        <input type="password" id="password" class="w-full px-5 py-3.5 rounded-xl bg-black/50 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors" placeholder="••••••••" required>
+                    </div>
+                    <div>
+                        <label for="confirm_password" class="block text-sm font-medium text-gray-300 mb-2">Xác nhận mật khẩu</label>
+                        <input type="password" id="confirm_password" class="w-full px-5 py-3.5 rounded-xl bg-black/50 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors" placeholder="••••••••" required>
+                    </div>
+                </div>
+                
+                <!-- Ban Ứng tuyển -->
+                <div>
+                    <label for="department" class="block text-sm font-medium text-gray-300 mb-2">Ban bạn muốn tham gia?</label>
+                    <div class="relative">
+                        <select id="department" class="w-full px-5 py-3.5 rounded-xl bg-black/50 border border-white/10 text-white appearance-none focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors" required>
+                            <option value="" disabled selected class="text-gray-500">Tiếp tục chọn ban ứng tuyển</option>
+                            <option value="rnd" class="bg-gray-900">R&D (Nghiên cứu & Phát triển)</option>
+                            <option value="finance" class="bg-gray-900">Finance & Tools (Tài chính & Công cụ)</option>
+                            <option value="er" class="bg-gray-900">ER (Quan hệ Đối tác)</option>
+                            <option value="hr" class="bg-gray-900">HR (Nhân sự)</option>
+                            <option value="comm" class="bg-gray-900">Communication (Truyền thông)</option>
+                            <option value="event" class="bg-gray-900">Event (Sự kiện)</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-400">
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="auth-message" hidden aria-live="polite"></div>
+
+                <div class="pt-4">
+                    <button id="register-submit" type="submit" class="w-full py-4 text-lg font-bold text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl glow-hover shadow-[0_0_15px_rgba(37,99,235,0.3)]">
+                        Hoàn tất Đăng ký
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-8 text-center">
+                <p class="text-sm text-gray-400">
+                    Đã có tài khoản? 
+                    <a href="login.html" class="text-blue-400 font-medium hover:text-blue-300 transition-colors">Đăng nhập</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="frontend-config.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/auth-pages.js"></script>
+</body>
+</html>
