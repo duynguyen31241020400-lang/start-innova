@@ -2,8 +2,10 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
-// Import routes
 const userRoutes = require('./src/routes/userRoutes');
+const publicRoutes = require('./src/routes/publicRoutes');
+const adminContentRoutes = require('./src/routes/adminContentRoutes');
+const eventRsvpRoutes = require('./src/routes/eventRsvpRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -11,11 +13,12 @@ const corsOrigin = process.env.CORS_ORIGIN
   ? process.env.CORS_ORIGIN.split(',').map((origin) => origin.trim())
   : true;
 
-// Middleware
-app.use(cors({ origin: corsOrigin, credentials: true })); // Cho phép Frontend gọi API
-app.use(express.json()); // Parser JSON body
+app.use(cors({ origin: corsOrigin, credentials: true }));
+app.use(express.json());
 
-// Routes
+app.use('/api/public', publicRoutes);
+app.use('/api/admin', adminContentRoutes);
+app.use('/api/events', eventRsvpRoutes);
 app.use('/api/users', userRoutes);
 
 // Root Endpoint

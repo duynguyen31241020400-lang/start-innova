@@ -1,19 +1,21 @@
 const { supabaseAdmin, hasServiceRole } = require('../config/supabase');
+const { logAdminAction } = require('../utils/auditLog');
 
 const validRoles = ['head', 'admin', 'member', 'guest', 'customer'];
 
-// API Admin: Xem toàn bộ database user (Chỉ dành cho 'head' hoặc 'admin')
 const getAllUsers = async (req, res) => {
   try {
     const { data, error } = await supabaseAdmin
       .from('users')
-      .select('id, email, full_name, mssv, department, role, created_at, updated_at')
+      .select('id, email, full_name, mssv, department, role, avatar_url, deleted_at, created_at, updated_at')
       .order('created_at', { ascending: false });
-    
-    if (error) throw error;
-    
+
+    if (error) {
+      throw error;
+    }
+
     return res.status(200).json({
-      message: "Lấy dữ liệu thành công.",
+      message: 'Lấy dữ liệu thành công.',
       total: data.length,
       data
     });
@@ -22,8 +24,6 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-// Yêu cầu 3: Lựa chọn tài khoản truy cập
-// Cập nhật role của user (Chỉ Admin/Head mới được dùng API này)
 const updateUserRole = async (req, res) => {
   try {
     const { email, newRole } = req.body;
@@ -50,38 +50,44 @@ const updateUserRole = async (req, res) => {
       return res.status(403).json({ error: 'Chỉ head mới được thay đổi role head.' });
     }
 
-    // Cập nhật role trong bảng public.users 
-    // (Lưu ý: Bạn phải dùng chuỗi supabase được init bằng SERVICE_ROLE_KEY mới bypass được RLS nếu Row Level Security đang chặn UPDATE)
     const { data, error } = await supabaseAdmin
       .from('users')
       .update({ role: newRole, updated_at: new Date().toISOString() })
       .eq('email', email)
       .select();
 
-    if (error) throw error;
-    
+    if (error) {
+      throw error;
+    }
+
     if (data.length === 0) {
       return res.status(404).json({ error: `Không tìm thấy tài khoản với email: ${email}` });
     }
 
-    return res.status(200).json({ 
-      message: `Đã thay đổi quyền của email ${email} thành [${newRole}] thành công!`, 
-      user: data[0] 
+    await logAdminAction({
+      actorId: req.user.id,
+      actionType: 'user.role_change',
+      targetKey: email,
+      metadata: { from: targetUser.role, to: newRole }
+    });
+
+    return res.status(200).json({
+      message: `Đã thay đổi quyền của email ${email} thành [${newRole}] thành công!`,
+      user: data[0]
     });
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
 };
 
-// Xóa user khỏi cơ sở dữ liệu (Ví dụ thêm cho quyền 'head')
+/**
+ * Mặc định: xóa mềm (đặt deleted_at). permanent=true chỉ head + có service role.
+ */
 const deleteUser = async (req, res) => {
   try {
     const { email } = req.params;
+    const permanent = req.query.permanent === 'true';
 
-    if (!hasServiceRole) {
-      return res.status(500).json({ error: 'Cần SUPABASE_SERVICE_ROLE_KEY để xóa user trong Supabase Auth.' });
-    }
-    
     const { data: user, error: findError } = await supabaseAdmin
       .from('users')
       .select('id, email')
@@ -92,25 +98,163 @@ const deleteUser = async (req, res) => {
       return res.status(404).json({ error: `Không tìm thấy tài khoản với email: ${email}` });
     }
 
-    // Xóa auth.users trước, public.users sẽ bị xóa cascade theo FK.
-    const { error } = await supabaseAdmin.auth.admin.deleteUser(user.id);
-    if (error) throw error;
+    if (permanent) {
+      if (req.user.role !== 'head') {
+        return res.status(403).json({ error: 'Chỉ head mới được xóa vĩnh viễn.' });
+      }
+      if (!hasServiceRole) {
+        return res.status(500).json({ error: 'Cần SUPABASE_SERVICE_ROLE_KEY để xóa vĩnh viễn khỏi Supabase Auth.' });
+      }
+      const { error } = await supabaseAdmin.auth.admin.deleteUser(user.id);
+      if (error) {
+        throw error;
+      }
+      await logAdminAction({
+        actorId: req.user.id,
+        actionType: 'user.hard_delete',
+        targetKey: email,
+        metadata: { userId: user.id }
+      });
+      return res.status(200).json({ message: `Đã xóa vĩnh viễn ${email} khỏi hệ thống.` });
+    }
 
-    return res.status(200).json({ message: `Đã xóa user ${email} khỏi hệ thống.` });
+    const { error: upErr } = await supabaseAdmin
+      .from('users')
+      .update({ deleted_at: new Date().toISOString(), updated_at: new Date().toISOString() })
+      .eq('email', email);
+
+    if (upErr) {
+      throw upErr;
+    }
+
+    await logAdminAction({
+      actorId: req.user.id,
+      actionType: 'user.soft_delete',
+      targetKey: email,
+      metadata: { userId: user.id }
+    });
+
+    return res.status(200).json({ message: `Đã vô hiệu hóa tài khoản ${email} (xóa mềm).` });
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
 };
 
-// API lấy dữ liệu chung của câu lạc bộ (Dành cho member, admin, head)
-const getClubData = async (req, res) => {
-  return res.status(200).json({ 
-    message: "Đây là dữ liệu nội bộ của Start Innova (Chỉ dành cho Member trở lên).", 
-    data: [
-      { id: 1, info: "Kế hoạch quý 3 2026" },
-      { id: 2, info: "Tài liệu R&D Knowledge Hub" }
-    ] 
-  });
+const getClubData = async (_req, res) => {
+  try {
+    const since = new Date(Date.now() - 2 * 86400000).toISOString();
+
+    const [ann, ev] = await Promise.all([
+      supabaseAdmin
+        .from('announcements')
+        .select('id, title, body, sort_order, created_at')
+        .eq('is_published', true)
+        .eq('audience', 'member')
+        .order('sort_order', { ascending: true })
+        .limit(30),
+      supabaseAdmin
+        .from('site_events')
+        .select('id, title, description, starts_at, ends_at, external_link')
+        .eq('is_published', true)
+        .gte('starts_at', since)
+        .order('starts_at', { ascending: true })
+        .limit(15)
+    ]);
+
+    if (ann.error) {
+      throw ann.error;
+    }
+    if (ev.error) {
+      throw ev.error;
+    }
+
+    return res.status(200).json({
+      message: 'Dữ liệu nội bộ Start Innova (dành cho thành viên).',
+      announcements: ann.data || [],
+      upcomingEvents: ev.data || []
+    });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
 };
 
-module.exports = { getAllUsers, updateUserRole, deleteUser, getClubData };
+const getPublicProfile = async (req, res) => {
+  try {
+    const { data, error } = await supabaseAdmin
+      .from('users')
+      .select('email, full_name, mssv, department, role, avatar_url, created_at, updated_at')
+      .eq('id', req.user.id)
+      .single();
+
+    if (error) {
+      throw error;
+    }
+
+    return res.status(200).json({
+      message: 'Hồ sơ công khai (trong phạm vi đăng nhập).',
+      user: {
+        id: req.user.id,
+        email: data.email,
+        full_name: data.full_name,
+        mssv: data.mssv,
+        department: data.department,
+        role: data.role,
+        avatar_url: data.avatar_url,
+        user_metadata: req.user.user_metadata,
+        app_metadata: req.user.app_metadata,
+        created_at: data.created_at,
+        updated_at: data.updated_at
+      }
+    });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+const patchProfile = async (req, res) => {
+  try {
+    const { full_name, mssv, department, avatar_url } = req.body;
+    const updates = {};
+
+    if (full_name !== undefined) {
+      updates.full_name = full_name;
+    }
+    if (mssv !== undefined) {
+      updates.mssv = mssv;
+    }
+    if (department !== undefined) {
+      updates.department = department;
+    }
+    if (avatar_url !== undefined) {
+      updates.avatar_url = avatar_url;
+    }
+
+    if (Object.keys(updates).length === 0) {
+      return res.status(400).json({ error: 'Không có trường nào để cập nhật.' });
+    }
+
+    updates.updated_at = new Date().toISOString();
+
+    const { data, error } = await supabaseAdmin.from('users').update(updates).eq('id', req.user.id).select().single();
+
+    if (error) {
+      throw error;
+    }
+
+    if (hasServiceRole) {
+      await supabaseAdmin.auth.admin.updateUserById(req.user.id, {
+        user_metadata: {
+          full_name: data.full_name,
+          mssv: data.mssv,
+          department: data.department
+        }
+      });
+    }
+
+    return res.status(200).json({ message: 'Đã cập nhật hồ sơ.', user: data });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+module.exports = { getAllUsers, updateUserRole, deleteUser, getClubData, patchProfile, getPublicProfile };

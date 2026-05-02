@@ -66,28 +66,38 @@
       const roleSelect = createRoleSelect(user.role);
       roleCell.appendChild(roleSelect);
 
+      const deletedCell = document.createElement("td");
+      deletedCell.className = "px-4 py-3 text-xs text-amber-400";
+      deletedCell.textContent = user.deleted_at ? "Đã xóa mềm" : "—";
+
       const actionCell = document.createElement("td");
       actionCell.className = "px-4 py-3";
       const actionWrap = document.createElement("div");
       actionWrap.className = "flex flex-wrap gap-2";
 
-      const saveButton = createButton("Luu");
+      const saveButton = createButton("Lưu");
       saveButton.addEventListener("click", async () => {
         await updateRole(user.email, roleSelect.value);
       });
       actionWrap.appendChild(saveButton);
 
-      if (currentRole === "head") {
-        const deleteButton = createButton("Xoa", "danger");
-        deleteButton.addEventListener("click", async () => {
-          await deleteUser(user.email);
+      if (currentRole === "head" && !user.deleted_at) {
+        const softBtn = createButton("Vô hiệu hóa", "danger");
+        softBtn.addEventListener("click", async () => {
+          await softDeleteUser(user.email);
         });
-        actionWrap.appendChild(deleteButton);
+        actionWrap.appendChild(softBtn);
+
+        const hardBtn = createButton("Xóa vĩnh viễn", "muted");
+        hardBtn.addEventListener("click", async () => {
+          await hardDeleteUser(user.email);
+        });
+        actionWrap.appendChild(hardBtn);
       }
 
       actionCell.appendChild(actionWrap);
 
-      row.append(emailCell, nameCell, mssvCell, departmentCell, roleCell, actionCell);
+      row.append(emailCell, nameCell, mssvCell, departmentCell, roleCell, deletedCell, actionCell);
       tbody.appendChild(row);
     });
   }
@@ -102,7 +112,7 @@
       if (!["head", "admin"].includes(currentRole)) {
         window.StartInnova.showMessage(
           "admin-message",
-          "Tai khoan hien tai khong co quyen quan tri.",
+          "Tài khoản hiện tại không có quyền quản trị.",
           "error"
         );
         return;
@@ -122,15 +132,15 @@
         method: "PUT",
         body: { email, newRole }
       });
-      window.StartInnova.showMessage("admin-message", `Da cap nhat ${email}.`, "success");
+      window.StartInnova.showMessage("admin-message", `Đã cập nhật ${email}.`, "success");
       await loadAdmin();
     } catch (error) {
       window.StartInnova.showMessage("admin-message", error.message, "error");
     }
   }
 
-  async function deleteUser(email) {
-    const confirmed = window.confirm(`Xoa tai khoan ${email}?`);
+  async function softDeleteUser(email) {
+    const confirmed = window.confirm(`Vô hiệu hóa (xóa mềm) tài khoản ${email}?`);
 
     if (!confirmed) {
       return;
@@ -140,7 +150,30 @@
       await window.StartInnova.apiFetch(`/api/users/by-email/${encodeURIComponent(email)}`, {
         method: "DELETE"
       });
-      window.StartInnova.showMessage("admin-message", `Da xoa ${email}.`, "success");
+      window.StartInnova.showMessage("admin-message", `Đã vô hiệu hóa ${email}.`, "success");
+      await loadAdmin();
+    } catch (error) {
+      window.StartInnova.showMessage("admin-message", error.message, "error");
+    }
+  }
+
+  async function hardDeleteUser(email) {
+    const confirmed = window.confirm(
+      `XÓA VĨNH VIỄN ${email} khỏi Auth và database? Thao tác không hoàn tác.`
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      await window.StartInnova.apiFetch(
+        `/api/users/by-email/${encodeURIComponent(email)}?permanent=true`,
+        {
+          method: "DELETE"
+        }
+      );
+      window.StartInnova.showMessage("admin-message", `Đã xóa vĩnh viễn ${email}.`, "success");
       await loadAdmin();
     } catch (error) {
       window.StartInnova.showMessage("admin-message", error.message, "error");
@@ -157,4 +190,3 @@
     loadAdmin();
   });
 })();
-

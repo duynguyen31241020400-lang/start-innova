@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản trị nội dung - Start Innova</title>
+    <meta name="description" content="Thêm sự kiện, thông báo, dự án, đối tác và bài viết hiển thị trên trang chủ.">
+    <link rel="icon" type="image/png" href="startinnova%20(9).png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #0A0A0A; color: #fff; }
+        .tab-active { border-color: rgb(59 130 246 / 0.5); background: rgb(59 130 246 / 0.15); color: rgb(147 197 253); }
+    </style>
+</head>
+<body class="min-h-screen antialiased">
+    <header class="border-b border-white/10 bg-[#0A0A0A]/95">
+        <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8">
+            <div class="flex items-center gap-4">
+                <a href="dashboard.html" class="text-sm text-blue-300 hover:text-white">← Dashboard</a>
+                <span class="text-lg font-bold text-white">Nội dung trang chủ</span>
+            </div>
+            <div class="flex gap-2">
+                <a href="admin.html" class="rounded-lg border border-white/10 px-3 py-2 text-sm text-white hover:bg-white/10">Quản trị user</a>
+                <button id="logout-button" type="button" class="rounded-lg bg-white/10 px-3 py-2 text-sm font-semibold text-white">Đăng xuất</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <div id="cms-message" hidden class="mb-6 rounded-xl border px-4 py-3 text-sm"></div>
+
+        <div class="flex flex-wrap gap-2 border-b border-white/10 pb-4">
+            <button type="button" class="cms-tab tab-active rounded-lg border border-transparent px-4 py-2 text-sm font-semibold" data-tab="events">Sự kiện</button>
+            <button type="button" class="cms-tab rounded-lg border border-transparent px-4 py-2 text-sm font-semibold text-gray-400" data-tab="announcements">Thông báo</button>
+            <button type="button" class="cms-tab rounded-lg border border-transparent px-4 py-2 text-sm font-semibold text-gray-400" data-tab="projects">Dự án</button>
+            <button type="button" class="cms-tab rounded-lg border border-transparent px-4 py-2 text-sm font-semibold text-gray-400" data-tab="partners">Đối tác</button>
+            <button type="button" class="cms-tab rounded-lg border border-transparent px-4 py-2 text-sm font-semibold text-gray-400" data-tab="posts">Bài viết</button>
+            <button type="button" class="cms-tab rounded-lg border border-transparent px-4 py-2 text-sm font-semibold text-gray-400" data-tab="broadcast">Gửi email</button>
+            <button type="button" class="cms-tab rounded-lg border border-transparent px-4 py-2 text-sm font-semibold text-gray-400" data-tab="audit">Nhật ký</button>
+        </div>
+
+        <section id="panel-events" class="cms-panel mt-8 space-y-8">
+            <div class="overflow-x-auto rounded-2xl border border-white/10">
+                <table class="min-w-full text-left text-sm">
+                    <thead class="border-b border-white/10 bg-white/[0.04] text-xs uppercase text-gray-400">
+                        <tr>
+                            <th class="px-4 py-3">Tiêu đề</th>
+                            <th class="px-4 py-3">Bắt đầu</th>
+                            <th class="px-4 py-3">Hiển thị</th>
+                            <th class="px-4 py-3"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-events"></tbody>
+                </table>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+                <h2 class="text-lg font-bold text-white">Thêm / sửa sự kiện</h2>
+                <form id="form-event" class="mt-4 grid gap-4 md:grid-cols-2">
+                    <input type="hidden" id="event-edit-id" value="">
+                    <div class="md:col-span-2">
+                        <label class="text-xs text-gray-500">Tiêu đề *</label>
+                        <input id="event-title" required class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="text-xs text-gray-500">Mô tả</label>
+                        <textarea id="event-desc" rows="2" class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white"></textarea>
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-500">Bắt đầu (ISO) *</label>
+                        <input id="event-starts" type="datetime-local" required class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-500">Kết thúc (ISO)</label>
+                        <input id="event-ends" type="datetime-local" class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="text-xs text-gray-500">Link ngoài</label>
+                        <input id="event-link" type="url" class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-500">Thứ tự</label>
+                        <input id="event-sort" type="number" value="0" class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white">
+                    </div>
+                    <div class="flex items-end gap-2 pb-2">
+                        <label class="flex cursor-pointer items-center gap-2 text-sm text-gray-300">
+                            <input id="event-published" type="checkbox" class="rounded border-white/20 bg-black/40">
+                            Xuất bản (hiện trên web)
+                        </label>
+                    </div>
+                    <div class="md:col-span-2 flex gap-3">
+                        <button type="submit" class="rounded-lg bg-blue-600 px-5 py-2 text-sm font-semibold text-white">Lưu</button>
+                        <button type="button" id="event-reset" class="rounded-lg border border-white/15 px-5 py-2 text-sm text-gray-300">Làm mới form</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section id="panel-announcements" class="cms-panel mt-8 hidden space-y-8">
+            <div class="overflow-x-auto rounded-2xl border border-white/10">
+                <table class="min-w-full text-left text-sm">
+                    <thead class="border-b border-white/10 bg-white/[0.04] text-xs uppercase text-gray-400">
+                        <tr>
+                            <th class="px-4 py-3">Tiêu đề</th>
+                            <th class="px-4 py-3">Đối tượng</th>
+                            <th class="px-4 py-3">Hiển thị</th>
+                            <th class="px-4 py-3"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-announcements"></tbody>
+                </table>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+                <h2 class="text-lg font-bold text-white">Thêm / sửa thông báo</h2>
+                <form id="form-announcement" class="mt-4 grid gap-4">
+                    <input type="hidden" id="ann-edit-id" value="">
+                    <div>
+                        <label class="text-xs text-gray-500">Tiêu đề *</label>
+                        <input id="ann-title" required class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-500">Nội dung</label>
+                        <textarea id="ann-body" rows="4" class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white"></textarea>
+                    </div>
+                    <div class="grid gap-4 sm:grid-cols-3">
+                        <div>
+                            <label class="text-xs text-gray-500">Đối tượng</label>
+                            <select id="ann-audience" class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white">
+                                <option value="public">Công khai (trang chủ)</option>
+                                <option value="member">Nội bộ (dashboard)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-xs text-gray-500">Thứ tự</label>
+                            <input id="ann-sort" type="number" value="0" class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white">
+                        </div>
+                        <div class="flex items-end">
+                            <label class="flex cursor-pointer items-center gap-2 text-sm text-gray-300">
+                                <input id="ann-published" type="checkbox" class="rounded border-white/20 bg-black/40">
+                                Xuất bản
+                            </label>
+                        </div>
+                    </div>
+                    <div class="flex gap-3">
+                        <button type="submit" class="rounded-lg bg-blue-600 px-5 py-2 text-sm font-semibold text-white">Lưu</button>
+                        <button type="button" id="ann-reset" class="rounded-lg border border-white/15 px-5 py-2 text-sm text-gray-300">Làm mới</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section id="panel-projects" class="cms-panel mt-8 hidden space-y-8">
+            <div class="overflow-x-auto rounded-2xl border border-white/10">
+                <table class="min-w-full text-left text-sm">
+                    <thead class="border-b border-white/10 bg-white/[0.04] text-xs uppercase text-gray-400">
+                        <tr><th class="px-4 py-3">Tiêu đề</th><th class="px-4 py-3">Hiển thị</th><th class="px-4 py-3"></th></tr>
+                    </thead>
+                    <tbody id="tbody-projects"></tbody>
+                </table>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+                <h2 class="text-lg font-bold text-white">Thêm / sửa dự án</h2>
+                <form id="form-project" class="mt-4 grid gap-4 md:grid-cols-2">
+                    <input type="hidden" id="proj-edit-id" value="">
+                    <div class="md:col-span-2">
+                        <label class="text-xs text-gray-500">Tiêu đề *</label>
+                        <input id="proj-title" required class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="text-xs text-gray-500">Tóm tắt</label>
+                        <textarea id="proj-summary" rows="2" class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white"></textarea>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="text-xs text-gray-500">URL ảnh</label>
+                        <input id="proj-image" type="url" class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="text-xs text-gray-500">Link ngoài</label>
+                        <input id="proj-link" type="url" class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-500">Thứ tự</label>
+                        <input id="proj-sort" type="number" value="0" class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white">
+                    </div>
+                    <div class="flex items-end">
+                        <label class="flex cursor-pointer items-center gap-2 text-sm text-gray-300">
+                            <input id="proj-published" type="checkbox" class="rounded border-white/20 bg-black/40"> Xuất bản
+                        </label>
+                    </div>
+                    <div class="md:col-span-2 flex gap-3">
+                        <button type="submit" class="rounded-lg bg-blue-600 px-5 py-2 text-sm font-semibold text-white">Lưu</button>
+                        <button type="button" id="proj-reset" class="rounded-lg border border-white/15 px-5 py-2 text-sm text-gray-300">Làm mới</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section id="panel-partners" class="cms-panel mt-8 hidden space-y-8">
+            <div class="overflow-x-auto rounded-2xl border border-white/10">
+                <table class="min-w-full text-left text-sm">
+                    <thead class="border-b border-white/10 bg-white/[0.04] text-xs uppercase text-gray-400">
+                        <tr><th class="px-4 py-3">Tên</th><th class="px-4 py-3">Hiển thị</th><th class="px-4 py-3"></th></tr>
+                    </thead>
+                    <tbody id="tbody-partners"></tbody>
+                </table>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+                <h2 class="text-lg font-bold text-white">Thêm / sửa đối tác</h2>
+                <form id="form-partner" class="mt-4 grid gap-4 md:grid-cols-2">
+                    <input type="hidden" id="partner-edit-id" value="">
+                    <div class="md:col-span-2">
+                        <label class="text-xs text-gray-500">Tên *</label>
+                        <input id="partner-name" required class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="text-xs text-gray-500">URL logo</label>
+                        <input id="partner-logo" type="url" class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="text-xs text-gray-500">Link</label>
+                        <input id="partner-link" type="url" class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-500">Thứ tự</label>
+                        <input id="partner-sort" type="number" value="0" class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white">
+                    </div>
+                    <div class="flex items-end">
+                        <label class="flex cursor-pointer items-center gap-2 text-sm text-gray-300">
+                            <input id="partner-published" type="checkbox" class="rounded border-white/20 bg-black/40"> Xuất bản
+                        </label>
+                    </div>
+                    <div class="md:col-span-2 flex gap-3">
+                        <button type="submit" class="rounded-lg bg-blue-600 px-5 py-2 text-sm font-semibold text-white">Lưu</button>
+                        <button type="button" id="partner-reset" class="rounded-lg border border-white/15 px-5 py-2 text-sm text-gray-300">Làm mới</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section id="panel-posts" class="cms-panel mt-8 hidden space-y-8">
+            <div class="overflow-x-auto rounded-2xl border border-white/10">
+                <table class="min-w-full text-left text-sm">
+                    <thead class="border-b border-white/10 bg-white/[0.04] text-xs uppercase text-gray-400">
+                        <tr><th class="px-4 py-3">Tiêu đề</th><th class="px-4 py-3">Slug</th><th class="px-4 py-3">Hiển thị</th><th class="px-4 py-3"></th></tr>
+                    </thead>
+                    <tbody id="tbody-posts"></tbody>
+                </table>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+                <h2 class="text-lg font-bold text-white">Thêm / sửa bài viết (Markdown)</h2>
+                <form id="form-post" class="mt-4 grid gap-4">
+                    <input type="hidden" id="post-edit-id" value="">
+                    <div>
+                        <label class="text-xs text-gray-500">Tiêu đề *</label>
+                        <input id="post-title" required class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-500">Slug (tuỳ chọn)</label>
+                        <input id="post-slug" class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white" placeholder="Để trống để tự tạo">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-500">Mô tả ngắn</label>
+                        <textarea id="post-excerpt" rows="2" class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white"></textarea>
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-500">Nội dung Markdown</label>
+                        <textarea id="post-body" rows="8" class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 font-mono text-sm text-white"></textarea>
+                    </div>
+                    <div class="grid gap-4 sm:grid-cols-3">
+                        <div>
+                            <label class="text-xs text-gray-500">Thứ tự</label>
+                            <input id="post-sort" type="number" value="0" class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white">
+                        </div>
+                        <div class="flex items-end">
+                            <label class="flex cursor-pointer items-center gap-2 text-sm text-gray-300">
+                                <input id="post-published" type="checkbox" class="rounded border-white/20 bg-black/40"> Xuất bản
+                            </label>
+                        </div>
+                    </div>
+                    <div class="flex gap-3">
+                        <button type="submit" class="rounded-lg bg-blue-600 px-5 py-2 text-sm font-semibold text-white">Lưu</button>
+                        <button type="button" id="post-reset" class="rounded-lg border border-white/15 px-5 py-2 text-sm text-gray-300">Làm mới</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section id="panel-broadcast" class="cms-panel mt-8 hidden">
+            <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+                <h2 class="text-lg font-bold text-white">Gửi email hàng loạt (Resend)</h2>
+                <p class="mt-2 text-sm text-gray-400">Cần biến môi trường RESEND_API_KEY và RESEND_FROM trên Vercel.</p>
+                <form id="form-broadcast" class="mt-6 grid gap-4 max-w-2xl">
+                    <div>
+                        <label class="text-xs text-gray-500">Nhóm nhận</label>
+                        <select id="broadcast-segment" class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white">
+                            <option value="members">Head / Admin / Member</option>
+                            <option value="all">Mọi tài khoản chưa xóa mềm</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-500">Tiêu đề *</label>
+                        <input id="broadcast-subject" required class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-500">Nội dung HTML *</label>
+                        <textarea id="broadcast-html" rows="10" required class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 font-mono text-sm text-white"></textarea>
+                    </div>
+                    <button type="submit" class="w-fit rounded-lg bg-purple-600 px-5 py-2 text-sm font-semibold text-white">Gửi</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="panel-audit" class="cms-panel mt-8 hidden">
+            <div class="overflow-x-auto rounded-2xl border border-white/10">
+                <table class="min-w-full text-left text-sm">
+                    <thead class="border-b border-white/10 bg-white/[0.04] text-xs uppercase text-gray-400">
+                        <tr>
+                            <th class="px-4 py-3">Thời điểm</th>
+                            <th class="px-4 py-3">Hành động</th>
+                            <th class="px-4 py-3">Mục tiêu</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-audit"></tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="frontend-config.js"></script>
+    <script src="assets/js/api.js"></script>
+    <script src="assets/js/admin-content.js"></script>
+</body>
+</html>

@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Start Innova</title>
+    <meta name="description" content="Bảng điều khiển thành viên Start Innova (UEH-ISB).">
+    <link rel="icon" type="image/png" href="startinnova%20(9).png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -20,26 +22,30 @@
         <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
             <a href="index.html" class="flex items-center gap-4">
                 <img src="startinnova (9).png" alt="Start Innova Logo" class="h-12 w-auto object-contain">
-                <span class="hidden text-sm font-semibold text-gray-300 sm:inline">Member Dashboard</span>
+                <span class="hidden text-sm font-semibold text-gray-300 sm:inline">Bảng thành viên</span>
             </a>
-            <div class="flex items-center gap-3">
-                <a id="admin-link" href="admin.html" hidden class="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10">Admin</a>
-                <button id="logout-button" type="button" class="rounded-lg bg-white/10 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/15">Dang xuat</button>
+            <div class="flex items-center gap-2 sm:gap-3">
+                <a id="admin-content-link" href="admin-content.html" hidden class="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10 sm:px-4">Nội dung trang</a>
+                <a id="admin-link" href="admin.html" hidden class="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10 sm:px-4">Quản trị user</a>
+                <button id="logout-button" type="button" class="rounded-lg bg-white/10 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/15 sm:px-4">Đăng xuất</button>
             </div>
         </div>
     </header>
 
     <main class="mx-auto grid max-w-7xl gap-6 px-4 py-8 sm:px-6 lg:grid-cols-[320px_1fr] lg:px-8">
         <section class="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
-            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-blue-300">Tai khoan</p>
-            <h1 id="profile-name" class="mt-3 text-2xl font-bold text-white">Dang tai...</h1>
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-blue-300">Tài khoản</p>
+            <h1 id="profile-name" class="mt-3 text-2xl font-bold text-white">Đang tải…</h1>
+            <div class="mt-4 flex justify-center sm:justify-start">
+                <img id="profile-avatar" src="" alt="" class="hidden h-20 w-20 rounded-full border border-white/20 object-cover" width="80" height="80">
+            </div>
             <div class="mt-6 space-y-4 text-sm">
                 <div>
                     <p class="text-gray-500">Email</p>
                     <p id="profile-email" class="mt-1 break-all font-medium text-gray-200">-</p>
                 </div>
                 <div>
-                    <p class="text-gray-500">Role</p>
+                    <p class="text-gray-500">Vai trò</p>
                     <p id="profile-role" class="mt-1 inline-flex rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 font-semibold text-blue-200">-</p>
                 </div>
                 <div>
@@ -52,11 +58,55 @@
         <section class="space-y-6">
             <div id="dashboard-message" hidden></div>
 
+            <div id="guest-banner" hidden class="rounded-2xl border border-amber-500/30 bg-amber-500/10 px-5 py-4 text-sm text-amber-100">
+                <p class="font-semibold text-white">Bạn đang là khách (guest)</p>
+                <p class="mt-2 text-amber-100/90">Phần nội bộ dành cho thành viên (Member trở lên). Hãy liên hệ Ban chủ nhiệm hoặc chờ duyệt nâng quyền để xem đầy đủ.</p>
+                <a href="index.html#dynamic-site-content" class="mt-3 inline-block text-blue-300 underline">Xem thông báo &amp; sự kiện công khai trên trang chủ</a>
+            </div>
+
             <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-300">Cập nhật hồ sơ</p>
+                <h2 class="mt-2 text-xl font-bold text-white">Thông tin cá nhân</h2>
+                <form id="profile-form" class="mt-5 grid gap-4 sm:grid-cols-2">
+                    <div class="sm:col-span-2">
+                        <label class="text-xs text-gray-500" for="field-full-name">Họ và tên</label>
+                        <input id="field-full-name" name="full_name" type="text" class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus:border-blue-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-500" for="field-mssv">MSSV</label>
+                        <input id="field-mssv" name="mssv" type="text" class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus:border-blue-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-500" for="field-department">Ban / Khoa</label>
+                        <input id="field-department" name="department" type="text" class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus:border-blue-500 focus:outline-none">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="text-xs text-gray-500" for="field-avatar">URL ảnh đại diện</label>
+                        <input id="field-avatar" name="avatar_url" type="url" class="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus:border-blue-500 focus:outline-none" placeholder="https://...">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <button type="submit" class="rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-5 py-2.5 text-sm font-semibold text-white">Lưu hồ sơ</button>
+                    </div>
+                </form>
+                <p id="profile-form-message" class="mt-4 hidden text-sm"></p>
+            </div>
+
+            <div id="member-events-section" class="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
                 <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
                     <div>
-                        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-purple-300">Noi bo</p>
-                        <h2 class="mt-2 text-2xl font-bold text-white">Club Data</h2>
+                        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-orange-300">Sự kiện</p>
+                        <h2 class="mt-2 text-2xl font-bold text-white">Đăng ký tham gia</h2>
+                    </div>
+                </div>
+                <div id="events-message" hidden class="mt-5"></div>
+                <ul id="member-events-list" class="mt-5 space-y-3"></ul>
+            </div>
+
+            <div id="club-section" class="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+                <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+                    <div>
+                        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-purple-300">Nội bộ</p>
+                        <h2 class="mt-2 text-2xl font-bold text-white">Thông báo nội bộ</h2>
                     </div>
                 </div>
                 <div id="club-message" hidden class="mt-5"></div>
@@ -71,4 +121,3 @@
     <script src="assets/js/dashboard.js"></script>
 </body>
 </html>
-

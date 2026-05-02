@@ -29,12 +29,16 @@ const requireAuth = async (req, res, next) => {
 
     const { data: userData, error: userError } = await profileClient
       .from('users')
-      .select('role')
+      .select('role, deleted_at')
       .eq('id', user.id)
       .single();
 
     if (userError || !userData) {
       return res.status(403).json({ error: 'Không tìm thấy thông tin quyền truy cập (Role) trong Database.' });
+    }
+
+    if (userData.deleted_at) {
+      return res.status(401).json({ error: 'Tài khoản đã bị vô hiệu hóa.' });
     }
 
     // Lưu thông tin user và role vào req để các middleware/controller sau sử dụng

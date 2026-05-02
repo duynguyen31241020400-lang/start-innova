@@ -67,7 +67,14 @@ Neu da co bang `public.users`, chay them migration:
 
 ```text
 backend/migrations/001_profile_fields.sql
+backend/migrations/002_site_content_audit.sql
 ```
+
+Migration `002` tao bang noi dung (su kien, thong bao, du an, doi tac, bai viet), RSVP, `admin_actions`, va cot `avatar_url` / `deleted_at` tren `users`.
+
+**Email hang loat (tuy chon):** them `RESEND_API_KEY` va `RESEND_FROM` tren Vercel de dung tab "Gui email" trong `admin-content.html`.
+
+**CI:** GitHub Actions chay `npm run check` + build smoke khi push len `main`.
 
 User dang ky moi se co role mac dinh `guest`. Hay set user dau tien thanh `head` trong Supabase SQL Editor de mo quyen admin.
 

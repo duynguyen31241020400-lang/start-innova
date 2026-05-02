@@ -26,7 +26,7 @@
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      window.StartInnova.setLoading(submitButton, true, "Dang nhap...");
+      window.StartInnova.setLoading(submitButton, true, "Đang đăng nhập…");
       window.StartInnova.showMessage("auth-message", "", "info");
 
       try {
@@ -40,12 +40,12 @@
           throw error;
         }
 
-        window.StartInnova.showMessage("auth-message", "Dang nhap thanh cong.", "success");
+        window.StartInnova.showMessage("auth-message", "Đăng nhập thành công.", "success");
         redirectToDashboard();
       } catch (error) {
         window.StartInnova.showMessage("auth-message", error.message, "error");
       } finally {
-        window.StartInnova.setLoading(submitButton, false, "Dang nhap...");
+        window.StartInnova.setLoading(submitButton, false, "Đăng nhập");
       }
     });
   }
@@ -61,7 +61,7 @@
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      window.StartInnova.setLoading(submitButton, true, "Dang ky...");
+      window.StartInnova.setLoading(submitButton, true, "Đang đăng ký…");
       window.StartInnova.showMessage("auth-message", "", "info");
 
       try {
@@ -74,11 +74,11 @@
         const department = document.getElementById("department").value;
 
         if (password !== confirmPassword) {
-          throw new Error("Mat khau xac nhan khong khop.");
+          throw new Error("Mật khẩu xác nhận không khớp.");
         }
 
         if (password.length < 6) {
-          throw new Error("Mat khau can co it nhat 6 ky tu.");
+          throw new Error("Mật khẩu cần có ít nhất 6 ký tự.");
         }
 
         const emailRedirectTo = new URL("dashboard.html", window.location.href).href;
@@ -106,13 +106,13 @@
 
         window.StartInnova.showMessage(
           "auth-message",
-          "Dang ky thanh cong. Hay kiem tra email de xac nhan tai khoan.",
+          "Đăng ký thành công. Hãy kiểm tra email để xác nhận tài khoản.",
           "success"
         );
       } catch (error) {
         window.StartInnova.showMessage("auth-message", error.message, "error");
       } finally {
-        window.StartInnova.setLoading(submitButton, false, "Dang ky...");
+        window.StartInnova.setLoading(submitButton, false, "Đăng ký");
       }
     });
   }

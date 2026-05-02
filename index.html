@@ -6,6 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Start Innova - Nơi Ý Tưởng Trở Thành Hiện Thực</title>
     <meta name="description" content="Start Innova - Bệ phóng khởi nghiệp đột phá dành riêng cho sinh viên UEH-ISB.">
+    <link rel="icon" type="image/png" href="startinnova%20(9).png">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Start Innova - Nơi Ý Tưởng Trở Thành Hiện Thực">
+    <meta property="og:description"
+        content="Bệ phóng khởi nghiệp đột phá dành riêng cho sinh viên UEH-ISB — STARTINNOVA Student Initiative.">
+    <meta property="og:image" content="https://start-innova.vercel.app/startinnova%20(9).png">
+    <meta property="og:url" content="https://start-innova.vercel.app/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Start Innova - Nơi Ý Tưởng Trở Thành Hiện Thực">
+    <meta name="twitter:description"
+        content="Bệ phóng khởi nghiệp đột phá dành riêng cho sinh viên UEH-ISB.">
+    <meta name="twitter:image" content="https://start-innova.vercel.app/startinnova%20(9).png">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Inter -->
@@ -208,6 +220,39 @@
             </div>
         </section>
 
+        <!-- Nội dung động (API /api/public/summary): thông báo, sự kiện, dự án, đối tác, bài viết -->
+        <section id="dynamic-site-content" class="py-24 relative z-10 bg-[#050505] border-t border-white/10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
+                <p id="public-summary-status" class="text-center text-sm text-gray-500">Đang tải nội dung…</p>
+
+                <div id="block-announcements" class="fade-in-section hidden">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-10 text-center">Thông báo</h2>
+                    <div id="public-announcements-list" class="grid gap-4 md:grid-cols-2"></div>
+                </div>
+
+                <div id="block-events" class="fade-in-section hidden">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-10 text-center">Sự kiện sắp tới</h2>
+                    <ul id="public-events-list" class="space-y-4 max-w-3xl mx-auto"></ul>
+                </div>
+
+                <div id="block-projects" class="fade-in-section hidden">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-10 text-center">Dự án nổi bật</h2>
+                    <div id="public-projects-list" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3"></div>
+                </div>
+
+                <div id="block-partners" class="fade-in-section hidden">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-10 text-center">Đối tác &amp; đồng hành</h2>
+                    <div id="public-partners-strip" class="flex flex-wrap justify-center items-center gap-8 md:gap-12">
+                    </div>
+                </div>
+
+                <div id="block-posts" class="fade-in-section hidden">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-10 text-center">Bài viết</h2>
+                    <div id="public-posts-list" class="grid gap-6 md:grid-cols-2"></div>
+                </div>
+            </div>
+        </section>
+
         <!-- Đăng ký Section (CTA cuối trang) -->
         <section id="register" class="py-32 relative overflow-hidden">
             <div class="absolute inset-0 bg-gradient-to-b from-[#0A0A0A] to-[#0A0A0A] z-0">
@@ -267,6 +312,7 @@
                         </li>
                         <li><a href="#about" class="text-gray-400 hover:text-white transition-colors">Về chúng tôi</a>
                         </li>
+                        <li><a href="#dynamic-site-content" class="text-gray-400 hover:text-white transition-colors">Tin &amp; sự kiện</a></li>
                         <li><a href="#register" class="text-gray-400 hover:text-white transition-colors">Đăng ký
                                 (Trial)</a></li>
                     </ul>
@@ -316,6 +362,7 @@
         </div>
     </footer>
 
+    <script src="assets/js/public-home.js"></script>
     <!-- JavaScript - Scroll Animation -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {

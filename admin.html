@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Start Innova</title>
+    <title>Quản trị người dùng - Start Innova</title>
+    <meta name="description" content="Quản lý thành viên và vai trò Start Innova.">
+    <link rel="icon" type="image/png" href="startinnova%20(9).png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -20,11 +22,12 @@
         <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
             <a href="dashboard.html" class="flex items-center gap-4">
                 <img src="startinnova (9).png" alt="Start Innova Logo" class="h-12 w-auto object-contain">
-                <span class="hidden text-sm font-semibold text-gray-300 sm:inline">Admin Console</span>
+                <span class="hidden text-sm font-semibold text-gray-300 sm:inline">Quản trị user</span>
             </a>
-            <div class="flex items-center gap-3">
-                <a href="dashboard.html" class="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10">Dashboard</a>
-                <button id="logout-button" type="button" class="rounded-lg bg-white/10 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/15">Dang xuat</button>
+            <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+                <a href="admin-content.html" class="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10 sm:px-4">Nội dung trang</a>
+                <a href="dashboard.html" class="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10 sm:px-4">Dashboard</a>
+                <button id="logout-button" type="button" class="rounded-lg bg-white/10 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/15 sm:px-4">Đăng xuất</button>
             </div>
         </div>
     </header>
@@ -32,11 +35,11 @@
     <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div class="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <div>
-                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-blue-300">Quan tri</p>
-                <h1 class="mt-2 text-3xl font-bold text-white">Users</h1>
+                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-blue-300">Quản trị</p>
+                <h1 class="mt-2 text-3xl font-bold text-white">Người dùng</h1>
             </div>
             <div class="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-gray-300">
-                Tong user: <span id="users-total" class="font-bold text-white">-</span>
+                Tổng số: <span id="users-total" class="font-bold text-white">-</span>
             </div>
         </div>
 
@@ -48,16 +51,17 @@
                     <thead class="bg-white/[0.04] text-left text-xs uppercase tracking-[0.16em] text-gray-400">
                         <tr>
                             <th class="px-4 py-3 font-semibold">Email</th>
-                            <th class="px-4 py-3 font-semibold">Ho ten</th>
+                            <th class="px-4 py-3 font-semibold">Họ tên</th>
                             <th class="px-4 py-3 font-semibold">MSSV</th>
                             <th class="px-4 py-3 font-semibold">Ban</th>
-                            <th class="px-4 py-3 font-semibold">Role</th>
-                            <th class="px-4 py-3 font-semibold">Hanh dong</th>
+                            <th class="px-4 py-3 font-semibold">Vai trò</th>
+                            <th class="px-4 py-3 font-semibold">Trạng thái</th>
+                            <th class="px-4 py-3 font-semibold">Thao tác</th>
                         </tr>
                     </thead>
                     <tbody id="users-table-body" class="divide-y divide-white/10">
                         <tr>
-                            <td colspan="6" class="px-4 py-6 text-sm text-gray-400">Dang tai...</td>
+                            <td colspan="7" class="px-4 py-6 text-sm text-gray-400">Đang tải…</td>
                         </tr>
                     </tbody>
                 </table>
