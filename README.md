@@ -22,16 +22,26 @@ Copy-Item frontend-config.example.js frontend-config.js
 
 Cap nhat `supabaseUrl`, `supabaseAnonKey`, `apiBaseUrl`.
 
-Khi deploy len Vercel, khong can commit `frontend-config.js`. Build script se tao file nay tu env:
+Khi deploy len Vercel, khong can commit `frontend-config.js`. Build script se tao file nay tu env.
 
-```text
-SUPABASE_URL
-SUPABASE_ANON_KEY
-SUPABASE_SERVICE_ROLE_KEY
-FRONTEND_API_BASE_URL
-```
+**Bien cho frontend build** — can du URL + anon key (mot trong hai cap):
 
-`FRONTEND_API_BASE_URL` co the de trong de frontend goi API cung domain tren Vercel.
+- `SUPABASE_URL` + `SUPABASE_ANON_KEY`, hoac
+- `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+
+**Bien cho API serverless (`/api/*`)** — can cho backend:
+
+- `SUPABASE_URL`
+- `SUPABASE_ANON_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY` — bat buoc cho xoa user khoi Auth, va nen co de admin API khong bi RLS chan sai y dinh
+
+**Tuy chon:**
+
+- `FRONTEND_API_BASE_URL` — de trong tren Vercel de frontend goi `/api` cung domain
+
+**Preview deployments:** Trong Vercel Project Settings > Environment Variables, them cung cac key cho muc **Preview** (neu khong, deploy preview co the thieu config).
+
+Tham khao danh sach day du tai `.env.example` trong repo root.
 
 3. Cai dependency backend:
 
