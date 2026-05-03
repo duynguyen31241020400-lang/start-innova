@@ -92,15 +92,33 @@
                 <!-- Header: Tương tác Góc Phải -->
                 <div class="flex items-center gap-4">
                     <a href="login.html"
-                        class="text-gray-300 font-medium hover:text-white transition-colors duration-300 text-sm md:text-base">
+                        class="hidden md:inline text-gray-300 font-medium hover:text-white transition-colors duration-300 text-sm md:text-base">
                         Đăng nhập
                     </a>
                     <a href="register.html"
-                        class="px-5 py-2 md:px-6 md:py-2.5 text-sm md:text-base font-bold text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg shadow-lg hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-300">
+                        class="hidden md:inline-flex px-5 py-2 md:px-6 md:py-2.5 text-sm md:text-base font-bold text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg shadow-lg hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-300">
                         Đăng ký
                     </a>
+                    <!-- Hamburger button (mobile only) -->
+                    <button id="mobile-menu-btn" type="button" aria-label="Mở menu"
+                        class="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5 rounded-lg hover:bg-white/10 transition-colors">
+                        <span class="block w-5 h-0.5 bg-white transition-all duration-300" id="hb-top"></span>
+                        <span class="block w-5 h-0.5 bg-white transition-all duration-300" id="hb-mid"></span>
+                        <span class="block w-5 h-0.5 bg-white transition-all duration-300" id="hb-bot"></span>
+                    </button>
                 </div>
             </div>
+        </div>
+        <!-- Mobile nav panel -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-white/10 bg-[#0A0A0A]/95 backdrop-blur-md">
+            <nav class="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-1">
+                <a href="#about" class="mobile-nav-link px-4 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 transition-colors font-medium">Giá trị cốt lõi</a>
+                <a href="#dynamic-site-content" class="mobile-nav-link px-4 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 transition-colors font-medium">Tin &amp; sự kiện</a>
+                <a href="#register" class="mobile-nav-link px-4 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 transition-colors font-medium">Đăng ký (Trial)</a>
+                <div class="h-px bg-white/10 my-2"></div>
+                <a href="login.html" class="px-4 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 transition-colors font-medium">Đăng nhập</a>
+                <a href="register.html" class="mt-1 px-4 py-3 rounded-lg text-center font-bold text-white bg-gradient-to-r from-blue-600 to-purple-600">Đăng ký thành viên</a>
+            </nav>
         </div>
     </header>
 
@@ -308,7 +326,7 @@
                 <div>
                     <h4 class="text-white font-semibold mb-6 text-lg">Liên kết</h4>
                     <ul class="space-y-4">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Start Innova Team</a>
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition-colors">Start Innova Team</a>
                         </li>
                         <li><a href="#about" class="text-gray-400 hover:text-white transition-colors">Về chúng tôi</a>
                         </li>
@@ -337,15 +355,6 @@
                                         clip-rule="evenodd"></path>
                                 </svg>
                             </a>
-                            <a href="#"
-                                class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-blue-600 hover:border-blue-600 transition-all text-gray-400 hover:text-white">
-                                <span class="sr-only">LinkedIn</span>
-                                <svg fill="currentColor" viewBox="0 0 24 24" class="w-5 h-5">
-                                    <path fill-rule="evenodd"
-                                        d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
-                                        clip-rule="evenodd"></path>
-                                </svg>
-                            </a>
                         </li>
                     </ul>
                 </div>
@@ -353,17 +362,43 @@
 
             <div
                 class="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-gray-500 text-sm">
-                <p>&copy; 2024 Start Innova (STARTINNOVA Student Initiative). All rights reserved.</p>
-                <div class="flex gap-6">
-                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
-                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
-                </div>
+                <p>&copy; 2026 Start Innova (STARTINNOVA Student Initiative). All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script src="assets/js/public-home.js"></script>
-    <!-- JavaScript - Scroll Animation -->
+    <!-- JavaScript - Mobile Menu + Scroll Animation -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Mobile menu toggle
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            const top = document.getElementById('hb-top');
+            const mid = document.getElementById('hb-mid');
+            const bot = document.getElementById('hb-bot');
+
+            btn.addEventListener('click', () => {
+                const isOpen = !menu.classList.contains('hidden');
+                menu.classList.toggle('hidden', isOpen);
+                // Animate to X
+                top.style.transform = isOpen ? '' : 'translateY(8px) rotate(45deg)';
+                mid.style.opacity = isOpen ? '' : '0';
+                bot.style.transform = isOpen ? '' : 'translateY(-8px) rotate(-45deg)';
+                btn.setAttribute('aria-label', isOpen ? 'Mở menu' : 'Đóng menu');
+            });
+
+            // Close mobile menu when a nav link is clicked
+            document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.add('hidden');
+                    top.style.transform = '';
+                    mid.style.opacity = '';
+                    bot.style.transform = '';
+                });
+            });
+        });
+    </script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Intersection Observer configuration

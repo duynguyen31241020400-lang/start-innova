@@ -177,11 +177,29 @@
     items.forEach((post) => {
       const card = document.createElement("article");
       card.className = "rounded-2xl border border-white/10 bg-white/[0.03] p-6";
-      const anchor = `#post-${escapeHtml(post.slug)}`;
-      card.innerHTML = `<h3 class="text-lg font-semibold text-white" id="post-${escapeHtml(post.slug)}">${escapeHtml(post.title)}</h3>
+      const body = post.body_md || "";
+      const truncated = body.length > 400;
+      const preview = escapeHtml(truncated ? body.slice(0, 400) : body);
+      const full = escapeHtml(body);
+      const toggleBtn = truncated
+        ? `<button class="post-toggle mt-3 text-sm text-blue-400 hover:text-blue-300 transition-colors">Đọc thêm ↓</button>`
+        : "";
+      card.innerHTML = `
+        <h3 class="text-lg font-semibold text-white" id="post-${escapeHtml(post.slug)}">${escapeHtml(post.title)}</h3>
         <p class="mt-2 text-sm text-gray-400">${escapeHtml(post.excerpt || "")}</p>
         <p class="mt-3 text-xs text-gray-600">${fmtDate(post.published_at)}</p>
-        <div class="mt-4 text-sm text-gray-300 prose prose-invert max-w-none whitespace-pre-wrap">${escapeHtml(post.body_md || "").slice(0, 1200)}${(post.body_md || "").length > 1200 ? "…" : ""}</div>`;
+        <div class="post-body mt-4 text-sm text-gray-300 whitespace-pre-wrap" data-preview="${preview}" data-full="${full}" data-expanded="false">${preview}${truncated ? "…" : ""}</div>
+        ${toggleBtn}`;
+      if (truncated) {
+        const btn = card.querySelector(".post-toggle");
+        const bodyEl = card.querySelector(".post-body");
+        btn.addEventListener("click", () => {
+          const expanded = bodyEl.dataset.expanded === "true";
+          bodyEl.textContent = expanded ? bodyEl.dataset.preview + "…" : bodyEl.dataset.full;
+          bodyEl.dataset.expanded = String(!expanded);
+          btn.textContent = expanded ? "Đọc thêm ↓" : "Thu gọn ↑";
+        });
+      }
       wrap.appendChild(card);
     });
   }
