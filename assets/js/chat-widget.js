@@ -9,7 +9,7 @@
     injectStyles();
     buildDOM();
     bindEvents();
-    addBotMessage('Xin chào! Tôi là trợ lý AI của Start Innova 👋\nBạn muốn biết gì về câu lạc bộ?');
+    addBotMessage('Em là Nova — hố đen nhỏ nhất của SIV.\nBạn cần biết gì?');
   }
 
   function injectStyles() {
@@ -61,7 +61,7 @@
     // Floating button
     var fab = document.createElement('button');
     fab.id = 'si-fab';
-    fab.setAttribute('aria-label', 'Mở trợ lý AI Start Innova');
+    fab.setAttribute('aria-label', 'Chat với Nova');
     fab.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
 
     // Panel
@@ -70,8 +70,8 @@
     panel.className = 'si-hide';
     panel.innerHTML =
       '<div id="si-head">' +
-        '<div class="si-av">✨</div>' +
-        '<div><div class="si-ht">Start Innova AI</div><div class="si-hs">Powered by Gemini Flash</div></div>' +
+        '<div class="si-av">🕳️</div>' +
+        '<div><div class="si-ht">Nova</div><div class="si-hs">Hố đen · SIV mascot chính thức</div></div>' +
       '</div>' +
       '<div id="si-msgs"></div>' +
       '<div id="si-foot">' +
