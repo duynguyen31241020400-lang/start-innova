@@ -6,6 +6,7 @@ const userRoutes = require('./src/routes/userRoutes');
 const publicRoutes = require('./src/routes/publicRoutes');
 const adminContentRoutes = require('./src/routes/adminContentRoutes');
 const eventRsvpRoutes = require('./src/routes/eventRsvpRoutes');
+const chatRoutes = require('./src/routes/chatRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -20,6 +21,7 @@ app.use('/api/public', publicRoutes);
 app.use('/api/admin', adminContentRoutes);
 app.use('/api/events', eventRsvpRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/chat', chatRoutes);
 
 // Root Endpoint
 app.get('/', (req, res) => {

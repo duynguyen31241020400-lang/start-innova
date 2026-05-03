@@ -5,9 +5,10 @@
   "description": "Static frontend and serverless API for Start Innova",
   "scripts": {
     "build": "node scripts/write-frontend-config.js",
-    "check": "node --check assets/js/api.js && node --check assets/js/auth-pages.js && node --check assets/js/dashboard.js && node --check assets/js/admin.js && node --check assets/js/admin-content.js && node --check assets/js/public-home.js && node --check backend/server.js && node --check backend/src/routes/userRoutes.js && node --check backend/src/routes/publicRoutes.js && node --check backend/src/routes/adminContentRoutes.js && node --check backend/src/routes/eventRsvpRoutes.js && node --check backend/src/controllers/userController.js && node --check backend/src/controllers/contentController.js && node --check backend/src/controllers/eventRsvpController.js && node --check backend/src/utils/auditLog.js && node --check backend/src/middlewares/rateLimit.js && node --check api/index.js"
+    "check": "node --check assets/js/api.js && node --check assets/js/auth-pages.js && node --check assets/js/dashboard.js && node --check assets/js/admin.js && node --check assets/js/admin-content.js && node --check assets/js/public-home.js && node --check assets/js/chat-widget.js && node --check backend/server.js && node --check backend/src/routes/userRoutes.js && node --check backend/src/routes/publicRoutes.js && node --check backend/src/routes/adminContentRoutes.js && node --check backend/src/routes/eventRsvpRoutes.js && node --check backend/src/routes/chatRoutes.js && node --check backend/src/controllers/userController.js && node --check backend/src/controllers/contentController.js && node --check backend/src/controllers/eventRsvpController.js && node --check backend/src/controllers/chatController.js && node --check backend/src/utils/auditLog.js && node --check backend/src/middlewares/rateLimit.js && node --check api/index.js"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@supabase/supabase-js": "^2.39.8",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
