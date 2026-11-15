@@ -1,0 +1,14 @@
+{
+  "slug": "operation",
+  "name": "Operation",
+  "order": 1,
+  "short": "Vận hành liên ban, tiến độ, chi phí và nội bộ CLB.",
+  "role": "Ban Operation giữ nhịp vận hành cho toàn CLB: giúp mọi dự án chạy đúng tiến độ, đúng ngân sách, và đảm bảo có đủ người, đủ công cụ để làm việc.",
+  "scope": [
+    "Vận hành quy trình liên ban tổ chức sự kiện và theo dõi tiến độ tất cả dự án của CLB",
+    "Thiết lập và vận hành quy trình theo dõi chi phí cho từng dự án theo ngân sách",
+    "Tuyển dụng, onboarding và xây dựng văn hóa nội bộ cho các thế hệ thành viên",
+    "Triển khai công cụ công nghệ vào quy trình làm việc chung và duy trì nền tảng học tập nội bộ"
+  ],
+  "jdUrl": ""
+}

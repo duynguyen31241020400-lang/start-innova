@@ -1,0 +1,12 @@
+{
+  "slug": "external-relations",
+  "name": "External Relations",
+  "order": 4,
+  "short": "Đối tác, nhà tài trợ, diễn giả và chuyên gia.",
+  "role": "Ban External Relations (ER) là cầu nối giữa CLB và hệ sinh thái bên ngoài: doanh nghiệp, chuyên gia, startup và các đơn vị đồng hành.",
+  "scope": [
+    "Thiết lập và duy trì quan hệ đối tác hỗ trợ hoạt động cho CLB: doanh nghiệp tài trợ, CLB phối hợp truyền thông, đơn vị báo chí bảo trợ",
+    "Liên hệ và hợp tác với diễn giả, chuyên gia, founder trong lĩnh vực khởi nghiệp công nghệ"
+  ],
+  "jdUrl": ""
+}

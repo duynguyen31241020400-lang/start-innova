@@ -1,85 +1,109 @@
-# Start Innova
+# Website StartInnova Club (SIV)
 
-Static frontend + Express backend cho Start Innova.
+Site tĩnh: không server, không database, không plugin. Nội dung nằm trong thư mục `content/` dưới dạng file JSON, lệnh build ghép chúng thành HTML trong thư mục `dist/`.
 
-## Chay local
+## Xem thử trên máy
 
-1. Dien backend env:
+Cần Node 18 trở lên, không cần cài thêm thư viện.
 
-```powershell
-cd backend
-Copy-Item .env.example .env
-cd ..
-```
+    node build.mjs
+    node serve.mjs
 
-Sau do cap nhat `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`.
+Mở http://localhost:8080. Sửa nội dung xong chạy lại `node build.mjs` là cập nhật.
 
-2. Dien frontend config:
+## Cấu trúc thư mục
 
-```powershell
-Copy-Item frontend-config.example.js frontend-config.js
-```
+- `content/` là toàn bộ chữ của website (thứ duy nhất cần sửa khi đổi nội dung)
+- `public/` gồm ảnh, CSS, JS và trang admin. Mọi thứ trong đây được chép nguyên sang `dist/`
+- `build.mjs` là bộ dựng trang: layout nằm ở đây, kiểm soát các trang và cách chúng hiển thị
+- `dist/` là kết quả build, đây là thứ đưa lên hosting (không sửa tay, build sẽ ghi đè)
 
-Cap nhat `supabaseUrl`, `supabaseAnonKey`, `apiBaseUrl`.
+## Sitemap
 
-Khi deploy len Vercel, khong can commit `frontend-config.js`. Build script se tao file nay tu env.
+- `/` Trang chủ: hero đen xanh dương, câu giới thiệu, số liệu, ba màn ảnh Gắn kết – Bứt phá – Vươn xa, trụ cột công nghệ, 4 ban, Về SIV, FAQ (ẩn nếu trống), CTA xanh dương
+- `/ve-siv/` Về SIV
+- `/phong-ban/` và `/phong-ban/<ban>/` cho Operation, Marketing, R&D, External Relations
+- `/lien-he/` Liên hệ
+- `/du-an/` và `/du-an/<ten>/` chỉ có khi có ít nhất một dự án
+- `/doi-tac/` chỉ có khi có ít nhất một đối tác
+- `/tuyen-thanh-vien/` chỉ có khi bật đợt tuyển
+- `/sitemap.xml`, `/robots.txt` tự sinh, `/admin/` là trang quản lý nội dung
 
-**Bien cho frontend build** — can du URL + anon key (mot trong hai cap):
+Trang nào chưa có dữ liệu thì không xuất hiện trên menu, trang chủ lẫn sitemap.
 
-- `SUPABASE_URL` + `SUPABASE_ANON_KEY`, hoac
-- `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+## Sửa nội dung ở đâu
 
-**Bien cho API serverless (`/api/*`)** — can cho backend:
+- `content/site.json`: tên CLB, khẩu hiệu, mô tả cho Google, thông tin liên hệ. Ô liên hệ nào để trống thì website tự ẩn ô đó
+- `content/hero.json`: chữ lớn đầu trang, câu giới thiệu (đặt *chữ* trong dấu sao để tô xanh), câu kêu gọi cuối trang, ba màn ảnh (chữ lớn, mô tả, ảnh, mô tả ảnh, vị trí cắt)
+- `content/stats.json`: dãy số liệu ở trang chủ. `content/faq.json`: câu hỏi thường gặp, để trống thì khối tự ẩn
+- `content/ve-siv.json`: nội dung trang Về SIV và 3 trụ cột
+- `content/phong-ban/*.json`: mỗi ban một file. Điền `jdUrl` để hiện nút mô tả công việc khi đang tuyển
+- `content/du-an/*.json`: mỗi dự án một file. Có file là có trang
+- `content/doi-tac/*.json`: mỗi đối tác một file. Trường `tier` quyết định hạng và kích thước logo
+- `content/tuyen.json`: đặt `enabled` thành `true` và điền `formUrl` để mở đợt tuyển. Trang, nút Ứng tuyển trên header và khối Đang tuyển ở từng ban tự hiện. Hết đợt thì đặt lại `false`
 
-- `SUPABASE_URL`
-- `SUPABASE_ANON_KEY`
-- `SUPABASE_SERVICE_ROLE_KEY` — bat buoc cho xoa user khoi Auth, va nen co de admin API khong bi RLS chan sai y dinh
+Ví dụ một dự án (`content/du-an/sharing-session-01.json`):
 
-**Tuy chon:**
+    {
+      "title": "SIV Sharing Session 01",
+      "slug": "sharing-session-01",
+      "date": "2026-12-05",
+      "summary": "Một hai câu tóm tắt.",
+      "cover": "/images/uploads/bia.jpg",
+      "coverAlt": "Mô tả ảnh bìa",
+      "body": "Đoạn một.\n\nĐoạn hai.",
+      "gallery": [{ "image": "/images/uploads/a.jpg", "alt": "Mô tả ảnh" }],
+      "published": true
+    }
 
-- `FRONTEND_API_BASE_URL` — de trong tren Vercel de frontend goi `/api` cung domain
+Ví dụ một đối tác (`content/doi-tac/ten-doi-tac.json`):
 
-**Preview deployments:** Trong Vercel Project Settings > Environment Variables, them cung cac key cho muc **Preview** (neu khong, deploy preview co the thieu config).
+    {
+      "name": "Tên đối tác",
+      "logo": "/images/uploads/logo.png",
+      "url": "https://example.com",
+      "tier": "Nhà tài trợ Vàng"
+    }
 
-Tham khao danh sach day du tai `.env.example` trong repo root.
+Các hạng hợp lệ, theo thứ tự từ to nhất: Đơn vị tổ chức, Đối tác chiến lược, Đối tác dự án, Nhà tài trợ Vàng, Nhà tài trợ Đồng, Đối tác truyền thông.
 
-3. Cai dependency backend:
+## Đưa lên mạng
 
-```powershell
-cd backend
-npm install
-npm run dev
-```
+Cách đơn giản nhất là Cloudflare Pages nối với repo GitHub:
 
-4. Mo frontend bang static server tai repo root, vi du:
+- Build command: `node build.mjs`
+- Output directory: `dist`
+- Gắn domain `startinnovaclub.com` trong phần Custom domains
 
-```powershell
-npx http-server . -p 3000
-```
+Hosting miễn phí. Khoản duy nhất phải trả hằng năm là tiền domain, tới hạn thì gia hạn.
 
-Sau do truy cap `http://localhost:3000`.
+Cũng có thể build trên máy rồi tải nội dung thư mục `dist/` lên bất kỳ hosting nào (kể cả hosting đã mua sẵn). Site chỉ gồm file tĩnh nên chỗ nào cũng chạy.
 
-## Supabase
+## Trang quản lý nội dung (/admin)
 
-Neu tao database lan dau, chay `backend/database-schema.sql` trong Supabase SQL Editor.
+Dùng Sveltia CMS, giao diện dạng form để các bạn không phải đụng vào code. Cấu hình ở `public/admin/config.yml`.
 
-Neu da co bang `public.users`, chay them migration:
+Việc cần làm một lần:
 
-```text
-backend/migrations/001_profile_fields.sql
-backend/migrations/002_site_content_audit.sql
-```
+- Đổi `OWNER/REPO` trong `public/admin/config.yml` thành repo GitHub thật của website
+- Cấp quyền ghi repo cho các bạn sẽ quản lý nội dung (tài khoản GitHub)
+- Vào `/admin`, đăng nhập GitHub. Sửa xong bấm lưu thì hosting tự build lại
 
-Migration `002` tao bang noi dung (su kien, thong bao, du an, doi tac, bai viet), RSVP, `admin_actions`, va cot `avatar_url` / `deleted_at` tren `users`.
+Lưu ý: phần admin chưa được thử trên môi trường thật vì cần repo và tài khoản GitHub. Lần đầu nối repo hãy thử sửa một mục nhỏ để kiểm tra.
 
-**Email hang loat (tuy chon):** them `RESEND_API_KEY` va `RESEND_FROM` tren Vercel de dung tab "Gui email" trong `admin-content.html`.
+## SEO
 
-**CI:** GitHub Actions chay `npm run check` + build smoke khi push len `main`.
+Đã có sẵn: HTML hoàn chỉnh, tiêu đề và mô tả riêng cho từng trang, Open Graph (chia sẻ Facebook, Zalo hiện ảnh và tiêu đề), sitemap, robots, dữ liệu Organization cho Google.
 
-User dang ky moi se co role mac dinh `guest`. Hay set user dau tien thanh `head` trong Supabase SQL Editor de mo quyen admin.
+Việc làm một lần: thêm domain vào Google Search Console và nộp `https://startinnovaclub.com/sitemap.xml`.
 
-```sql
-UPDATE public.users
-SET role = 'head'
-WHERE email = 'email-cua-ban@example.com';
-```
+Khi thêm dự án, nhớ điền mô tả cho mọi ảnh (ô `alt`), tiêu đề và mô tả riêng nếu muốn tùy chỉnh trên Google.
+
+## Nhờ Claude sửa
+
+Nếu cần đổi giao diện hoặc thêm loại trang mới, mở Claude, đưa cho nó cả thư mục này và nói rõ cần gì. Toàn bộ layout nằm trong `build.mjs` và `public/css/style.css`, nội dung nằm trong `content/`, nên Claude chỉ cần đọc hai chỗ đó.
+
+## Việc còn để trống
+
+- Link fanpage, email CLB, số điện thoại, địa chỉ, các mạng xã hội: điền trong `content/site.json`
+- Dự án, đối tác, đợt tuyển: thêm khi có

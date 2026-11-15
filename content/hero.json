@@ -1,0 +1,30 @@
+{
+  "tag": "SIV. Bứt phá từ nội lực.",
+  "word": "StartInnova.",
+  "video": "",
+  "statement": "StartInnova là *phòng lab khởi nghiệp công nghệ* của sinh viên Trường Tài năng UEH.ISB, nơi mỗi sinh viên rèn nội lực để dám bứt phá.",
+  "cta": "Cùng SIV bứt phá từ nội lực.",
+  "slides": [
+    {
+      "word": "Gắn kết",
+      "caption": "Cộng đồng sinh viên cùng đam mê khởi nghiệp và công nghệ, nơi tư duy kinh doanh gặp năng lực công nghệ để cùng học hỏi và đồng hành.",
+      "image": "/images/hero-gan-ket.jpg",
+      "alt": "Hai bạn sinh viên khoác vai nhau và giơ ngón tay cái",
+      "position": "50% 35%"
+    },
+    {
+      "word": "Bứt phá",
+      "caption": "Từ ý tưởng đến sản phẩm mẫu: tự tay xây MVP bằng AI, no-code và kiểm chứng ý tưởng bằng dữ liệu thị trường thật.",
+      "image": "/images/hero-but-pha.jpg",
+      "alt": "Ba bạn sinh viên trình bày sản phẩm trên laptop tại sự kiện",
+      "position": "50% 40%"
+    },
+    {
+      "word": "Vươn xa",
+      "caption": "Kết nối giảng viên, cựu sinh viên, chuyên gia và startup để mang ý tưởng ra các đấu trường khởi nghiệp.",
+      "image": "/images/hero-vuon-xa.jpg",
+      "alt": "Bạn sinh viên cầm bảng giải thưởng Third Prize tại Asian Hackathon for Green Future",
+      "position": "50% 52%"
+    }
+  ]
+}

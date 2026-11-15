@@ -1,0 +1,13 @@
+{
+  "slug": "r-d",
+  "name": "R&D",
+  "order": 3,
+  "short": "Nghiên cứu, đào tạo công nghệ và thẩm định ý tưởng.",
+  "role": "Ban R&D là nền tảng nghiên cứu và năng lực công nghệ của CLB, bao gồm mảng Analytics & Digital Solutions: cung cấp dữ liệu, giáo trình và đánh giá khả thi để các ý tưởng được chọn dựa trên cơ sở.",
+  "scope": [
+    "Thiết lập và vận hành R&D Knowledge Hub tổng hợp nghiên cứu về cơ hội khởi nghiệp công nghệ",
+    "Xây dựng bộ giáo trình training nội bộ “Tech cho Founder” về AI, no-code và phân tích dữ liệu thị trường",
+    "Thẩm định tính khả thi tài chính cho các ý tưởng khởi nghiệp của CLB"
+  ],
+  "jdUrl": ""
+}

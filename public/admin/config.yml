@@ -1,0 +1,169 @@
+# Cấu hình trang quản lý nội dung (Sveltia CMS, dùng cú pháp giống Decap CMS).
+# Việc cần làm một lần: đổi OWNER/REPO bên dưới thành repo GitHub của website.
+backend:
+  name: github
+  repo: OWNER/REPO
+  branch: main
+
+media_folder: public/images/uploads
+public_folder: /images/uploads
+site_url: https://startinnovaclub.com
+display_url: https://startinnovaclub.com
+
+collections:
+  - name: settings
+    label: Cài đặt chung
+    files:
+      - name: site
+        label: Thông tin chung và liên hệ
+        file: content/site.json
+        fields:
+          - { label: Tên CLB, name: name, widget: string }
+          - { label: Tên viết tắt, name: shortName, widget: string }
+          - { label: Khẩu hiệu, name: tagline, widget: string }
+          - { label: Địa chỉ website (không có dấu / ở cuối), name: url, widget: string }
+          - { label: Đơn vị trực thuộc, name: org, widget: string }
+          - { label: Mô tả ngắn cho Google, name: description, widget: text }
+          - label: Liên hệ (để trống mục nào thì website tự ẩn mục đó)
+            name: contact
+            widget: object
+            fields:
+              - { label: Link Fanpage Facebook, name: fanpage, widget: string, required: false }
+              - { label: Email CLB, name: email, widget: string, required: false }
+              - { label: Số điện thoại, name: phone, widget: string, required: false }
+              - { label: Địa chỉ, name: address, widget: string, required: false }
+              - { label: Link Instagram, name: instagram, widget: string, required: false }
+              - { label: Link TikTok, name: tiktok, widget: string, required: false }
+              - { label: Link LinkedIn, name: linkedin, widget: string, required: false }
+      - name: hero
+        label: Trang chủ - ảnh đầu trang (đổi chữ khi cuộn)
+        file: content/hero.json
+        fields:
+          - { label: Dòng nhỏ phía trên chữ lớn, name: tag, widget: string }
+          - { label: Chữ lớn đầu trang, name: word, widget: string }
+          - { label: Video nền (tùy chọn, để trống thì nền đen xanh), name: video, widget: file, required: false }
+          - { label: Câu giới thiệu (đặt *chữ* trong dấu sao để tô xanh), name: statement, widget: text }
+          - { label: Câu kêu gọi cuối trang, name: cta, widget: string }
+          - label: Ba màn ảnh (Gắn kết, Bứt phá, Vươn xa)
+            name: slides
+            widget: list
+            fields:
+              - { label: Chữ lớn, name: word, widget: string }
+              - { label: Dòng mô tả, name: caption, widget: text }
+              - { label: Ảnh nền, name: image, widget: image }
+              - { label: Mô tả ảnh (bắt buộc, giúp SEO và người khiếm thị), name: alt, widget: string }
+              - { label: Vị trí cắt ảnh (ví dụ 50% 40%), name: position, widget: string, default: "50% 50%" }
+      - name: stats
+        label: Trang chủ - dãy số liệu
+        file: content/stats.json
+        fields:
+          - label: Số liệu
+            name: items
+            widget: list
+            fields:
+              - { label: Con số hoặc chữ lớn, name: value, widget: string }
+              - { label: Mô tả, name: label, widget: string }
+      - name: faq
+        label: Trang chủ - câu hỏi thường gặp (để trống thì tự ẩn)
+        file: content/faq.json
+        fields:
+          - label: Câu hỏi
+            name: items
+            widget: list
+            required: false
+            fields:
+              - { label: Câu hỏi, name: q, widget: string }
+              - { label: Trả lời, name: a, widget: text }
+      - name: ve-siv
+        label: Trang Về SIV
+        file: content/ve-siv.json
+        fields:
+          - { label: Giới thiệu (mỗi đoạn một dòng), name: intro, widget: list, field: { label: Đoạn, name: p, widget: text } }
+          - { label: Tầm nhìn, name: vision, widget: text }
+          - { label: Sứ mệnh rút gọn (hiện ở trang chủ), name: missionShort, widget: text }
+          - { label: Dẫn vào sứ mệnh, name: missionIntro, widget: string }
+          - { label: Sứ mệnh, name: mission, widget: list, field: { label: Ý, name: m, widget: text } }
+          - { label: Dẫn vào định hướng công nghệ, name: techIntro, widget: text }
+          - label: Ba trụ cột
+            name: pillars
+            widget: list
+            fields:
+              - { label: Tên, name: title, widget: string }
+              - { label: Mô tả, name: text, widget: text }
+          - { label: Câu tinh thần, name: spirit, widget: text }
+      - name: tuyen
+        label: Đợt tuyển thành viên (bật/tắt)
+        file: content/tuyen.json
+        fields:
+          - { label: Đang mở đợt tuyển (bật thì trang Tuyển thành viên và nút Ứng tuyển tự hiện), name: enabled, widget: boolean, default: false }
+          - { label: Tiêu đề trang, name: title, widget: string }
+          - { label: Giới thiệu đợt tuyển, name: intro, widget: text, required: false }
+          - { label: Link form ứng tuyển (Google Form), name: formUrl, widget: string, required: false }
+
+  - name: phong-ban
+    label: Phòng ban
+    folder: content/phong-ban
+    extension: json
+    format: json
+    create: false
+    delete: false
+    slug: "{{slug}}"
+    fields:
+      - { label: Đường dẫn (không sửa), name: slug, widget: string }
+      - { label: Tên ban, name: name, widget: string }
+      - { label: Thứ tự hiển thị, name: order, widget: number }
+      - { label: Mô tả một dòng, name: short, widget: string }
+      - { label: Vai trò, name: role, widget: text }
+      - { label: Phạm vi công việc, name: scope, widget: list, field: { label: Việc, name: item, widget: text } }
+      - { label: Link mô tả công việc JD (chỉ hiện khi đang mở đợt tuyển), name: jdUrl, widget: string, required: false }
+
+  - name: du-an
+    label: Dự án
+    folder: content/du-an
+    extension: json
+    format: json
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}}"
+    fields:
+      - { label: Tên dự án, name: title, widget: string }
+      - { label: Đường dẫn (chữ thường, không dấu, nối bằng dấu gạch ngang), name: slug, widget: string, pattern: ["^[a-z0-9-]+$", "Chỉ dùng chữ thường không dấu, số và dấu gạch ngang"] }
+      - { label: Ngày diễn ra, name: date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { label: Thời gian hiển thị (tùy chọn, ví dụ Tháng 3/2027), name: time, widget: string, required: false }
+      - { label: Tóm tắt (1-2 câu), name: summary, widget: text }
+      - { label: Ảnh bìa, name: cover, widget: image, required: false }
+      - { label: Mô tả ảnh bìa, name: coverAlt, widget: string, required: false }
+      - { label: Nội dung (cách nhau một dòng trống là một đoạn), name: body, widget: text }
+      - label: Ảnh recap
+        name: gallery
+        widget: list
+        required: false
+        fields:
+          - { label: Ảnh, name: image, widget: image }
+          - { label: Mô tả ảnh (bắt buộc), name: alt, widget: string }
+      - { label: Tiêu đề cho Google (tùy chọn, để trống thì lấy tên dự án), name: seoTitle, widget: string, required: false }
+      - { label: Mô tả cho Google (tùy chọn, để trống thì lấy phần tóm tắt), name: seoDescription, widget: text, required: false }
+      - { label: Hiển thị trên website, name: published, widget: boolean, default: true }
+
+  - name: doi-tac
+    label: Đối tác
+    folder: content/doi-tac
+    extension: json
+    format: json
+    create: true
+    slug: "{{slug}}"
+    summary: "{{name}} - {{tier}}"
+    fields:
+      - { label: Tên đối tác, name: name, widget: string }
+      - { label: Logo, name: logo, widget: image }
+      - { label: Website đối tác, name: url, widget: string, required: false }
+      - label: Hạng (hạng càng đầu danh sách thì logo càng to)
+        name: tier
+        widget: select
+        options:
+          - Đơn vị tổ chức
+          - Đối tác chiến lược
+          - Đối tác dự án
+          - Nhà tài trợ Vàng
+          - Nhà tài trợ Đồng
+          - Đối tác truyền thông

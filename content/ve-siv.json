@@ -1,0 +1,32 @@
+{
+  "intro": [
+    "Thành lập năm 2025, StartInnova là Câu lạc bộ Tiên phong về Khởi nghiệp công nghệ và Đổi mới sáng tạo thuộc Trường Tài năng UEH.ISB – Đại học Kinh tế TP. Hồ Chí Minh (UEH).",
+    "Với tư duy của một “Vườn ươm khởi nghiệp” ngay tại giảng đường, StartInnova là nơi hội tụ của những sinh viên kinh tế nhạy bén, khát khao biến ý tưởng thành giải pháp kinh doanh thực tiễn bằng sức mạnh của công nghệ và trí tuệ nhân tạo (AI).",
+    "CLB tập trung trang bị tư duy khởi nghiệp, năng lực ứng dụng công nghệ và kinh nghiệm thực chiến nhằm hỗ trợ sinh viên chinh phục các đấu trường khởi nghiệp tại Việt Nam."
+  ],
+  "vision": "StartInnova hướng tới trở thành vườn ươm khởi nghiệp công nghệ tiêu biểu tại UEH.ISB, nơi ươm tạo thế hệ nhà sáng lập trẻ am hiểu kinh doanh, làm chủ công nghệ và dám bứt phá từ nội lực.",
+  "missionIntro": "StartInnova ra đời để khơi dậy, nuôi dưỡng và phát triển những hạt giống khởi nghiệp công nghệ thông qua các hoạt động:",
+  "mission": [
+    "Cung cấp môi trường đào tạo giúp sinh viên xây dựng nền tảng tư duy khởi nghiệp cùng năng lực ứng dụng công nghệ, AI và dữ liệu để giải quyết các bài toán kinh doanh thực tế.",
+    "Ươm mầm ý tưởng khởi nghiệp bằng cách tạo cơ hội để sinh viên tự xây dựng sản phẩm mẫu (MVP) với các công cụ công nghệ như AI, no-code, và kiểm chứng ý tưởng bằng dữ liệu thị trường thật.",
+    "Xây dựng cộng đồng sinh viên cùng đam mê khởi nghiệp và công nghệ, nơi tư duy kinh doanh và năng lực công nghệ gặp nhau để cùng học hỏi, đồng hành và phát triển.",
+    "Kết nối sinh viên với hệ sinh thái khởi nghiệp công nghệ, gồm giảng viên, cựu sinh viên, chuyên gia, startup và doanh nghiệp đổi mới sáng tạo."
+  ],
+  "techIntro": "StartInnova không đào tạo lập trình viên. CLB đào tạo sinh viên kinh tế biết dùng công nghệ để khởi nghiệp, thông qua 3 trụ cột:",
+  "pillars": [
+    {
+      "title": "Tech cho Founder",
+      "text": "Workshop, training về công cụ AI, no-code, automation và phân tích dữ liệu thị trường ứng dụng trong khởi nghiệp."
+    },
+    {
+      "title": "Build & Validate",
+      "text": "Thành viên xây dựng MVP bằng công cụ no-code/AI và kiểm chứng ý tưởng bằng dữ liệu người dùng thật."
+    },
+    {
+      "title": "Tech Startup Network",
+      "text": "Kết nối với founder, chuyên gia và doanh nghiệp trong lĩnh vực khởi nghiệp công nghệ để làm diễn giả, mentor và đối tác."
+    }
+  ],
+  "spirit": "StartInnova là “phòng lab khởi nghiệp công nghệ” của sinh viên Trường Tài năng UEH.ISB, nơi mỗi sinh viên rèn nội lực từ tư duy kinh doanh và năng lực công nghệ để dám bứt phá với ý tưởng khởi nghiệp của mình.",
+  "missionShort": "Khơi dậy, nuôi dưỡng và phát triển những hạt giống khởi nghiệp công nghệ trong sinh viên UEH.ISB."
+}
