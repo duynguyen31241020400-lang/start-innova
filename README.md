@@ -85,7 +85,7 @@ Dùng Sveltia CMS, giao diện dạng form để các bạn không phải đụn
 
 Việc cần làm một lần:
 
-- Đổi `OWNER/REPO` trong `public/admin/config.yml` thành repo GitHub thật của website
+- Đổi `duynguyen31241020400-lang/start-innova` trong `public/admin/config.yml` thành repo GitHub thật của website
 - Cấp quyền ghi repo cho các bạn sẽ quản lý nội dung (tài khoản GitHub)
 - Vào `/admin`, đăng nhập GitHub. Sửa xong bấm lưu thì hosting tự build lại
 

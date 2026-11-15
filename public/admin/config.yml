@@ -1,8 +1,8 @@
 # Cấu hình trang quản lý nội dung (Sveltia CMS, dùng cú pháp giống Decap CMS).
-# Việc cần làm một lần: đổi OWNER/REPO bên dưới thành repo GitHub của website.
+# Việc cần làm một lần: đổi duynguyen31241020400-lang/start-innova bên dưới thành repo GitHub của website.
 backend:
   name: github
-  repo: OWNER/REPO
+  repo: duynguyen31241020400-lang/start-innova
   branch: main
 
 media_folder: public/images/uploads
