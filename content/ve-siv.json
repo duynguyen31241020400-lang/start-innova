@@ -8,7 +8,7 @@
   "missionIntro": "StartInnova ra đời để khơi dậy, nuôi dưỡng và phát triển những hạt giống khởi nghiệp công nghệ thông qua các hoạt động:",
   "mission": [
     "Cung cấp môi trường đào tạo giúp sinh viên xây dựng nền tảng tư duy khởi nghiệp cùng năng lực ứng dụng công nghệ, AI và dữ liệu để giải quyết các bài toán kinh doanh thực tế.",
-    "Ươm mầm ý tưởng khởi nghiệp bằng cách tạo cơ hội để sinh viên tự xây dựng sản phẩm mẫu (MVP) với các công cụ công nghệ như AI, no-code, và kiểm chứng ý tưởng bằng dữ liệu thị trường thật.",
+    "Ươm mầm ý tưởng khởi nghiệp bằng cách tạo cơ hội để sinh viên tự xây dựng sản phẩm mẫu (MVP) với các công cụ công nghệ như AI và tự động hóa, và kiểm chứng ý tưởng bằng dữ liệu thị trường thật.",
     "Xây dựng cộng đồng sinh viên cùng đam mê khởi nghiệp và công nghệ, nơi tư duy kinh doanh và năng lực công nghệ gặp nhau để cùng học hỏi, đồng hành và phát triển.",
     "Kết nối sinh viên với hệ sinh thái khởi nghiệp công nghệ, gồm giảng viên, cựu sinh viên, chuyên gia, startup và doanh nghiệp đổi mới sáng tạo."
   ],
@@ -16,11 +16,11 @@
   "pillars": [
     {
       "title": "Tech cho Founder",
-      "text": "Workshop, training về công cụ AI, no-code, automation và phân tích dữ liệu thị trường ứng dụng trong khởi nghiệp."
+      "text": "Workshop, training về công cụ AI, AI agent, tự động hóa và phân tích dữ liệu thị trường ứng dụng trong khởi nghiệp."
     },
     {
       "title": "Build & Validate",
-      "text": "Thành viên xây dựng MVP bằng công cụ no-code/AI và kiểm chứng ý tưởng bằng dữ liệu người dùng thật."
+      "text": "Thành viên xây dựng MVP cùng các công cụ AI thế hệ mới và kiểm chứng ý tưởng bằng dữ liệu người dùng thật."
     },
     {
       "title": "Tech Startup Network",
