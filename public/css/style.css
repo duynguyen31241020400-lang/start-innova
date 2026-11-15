@@ -202,6 +202,21 @@ h1, h2, h3, h4, h5 { font-weight: 500; }
   .svc.plain > div { grid-template-columns: 44px 1fr; }
   .card.wide { aspect-ratio: 16 / 10; }
   .pillar h3, .hero h2 { font-size: clamp(44px, 17vw, 120px); }
+  .pillar.img { min-height: 0; height: min(100svh, 640px); }
+  .pillar p { left: 16px; right: 16px; max-width: none; bottom: 20px; font-size: 14px; line-height: 1.35; }
+  .tag { font-size: 12px; }
+  .pill { font-size: 12px; padding: 11px 20px; bottom: 28px; }
+  .statement p { font-size: clamp(28px, 8.2vw, 48px); }
+  .sec { padding: 10vh 16px; }
+  .sec h2 { font-size: clamp(40px, 13vw, 72px); margin-bottom: 5vh; }
+  .sec .intro { font-size: 17px; margin-top: -2vh; }
+  .svc h4 { font-size: 24px; }
+  .svc p { font-size: 15px; }
+  .phero { padding: 22vh 16px 8vh; }
+  .phero h1 { font-size: clamp(44px, 14vw, 90px); }
+  .cta a.t { font-size: clamp(32px, 10vw, 56px); }
+  .adx-f { padding: 40px 16px; }
+  .adx-f li { font-size: 15px; }
 }
 @media (max-width: 600px) {
   .mq-i { height: 48px; font-size: 18px; }
