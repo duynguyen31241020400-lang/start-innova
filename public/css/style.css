@@ -187,6 +187,13 @@ h1, h2, h3, h4, h5 { font-weight: 500; }
 .bigmark img { width: min(30vw, 260px); height: auto; border-radius: 18px; opacity: .95; }
 .copy { grid-column: 1 / -1; color: #777; font-size: 11px; }
 
+/* ---------- Biểu tượng mạng xã hội ---------- */
+.socials { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.soc { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; border: 1px solid #555; color: #fff; transition: background .25s, border-color .25s, color .25s; }
+.soc:hover { background: var(--ruby); border-color: var(--ruby); color: #fff !important; }
+.svc.contact .soc { color: var(--ink); border-color: #111; }
+.svc.contact .socials { margin-top: 0; }
+
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
   .adx-h nav { display: none; }

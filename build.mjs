@@ -93,15 +93,31 @@ function header(path) {
   }</nav>`;
 }
 
+const ICONS = {
+  facebook: '<path d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H7.9v3h2.6V21h3z"/>',
+  instagram: '<path d="M12 7.3A4.7 4.7 0 1 0 12 16.7 4.7 4.7 0 0 0 12 7.3zm0 7.7a3 3 0 1 1 0-6 3 3 0 0 1 0 6zM17.2 6.1a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2zM12 3.5c-2.3 0-2.6 0-3.5.1-2.6.1-3.8 1.4-3.9 3.9-.1.9-.1 1.2-.1 3.5s0 2.6.1 3.5c.1 2.5 1.3 3.8 3.9 3.9.9.1 1.2.1 3.5.1s2.6 0 3.5-.1c2.5-.1 3.8-1.3 3.9-3.9.1-.9.1-1.2.1-3.5s0-2.6-.1-3.5c-.1-2.5-1.4-3.8-3.9-3.9-.9-.1-1.2-.1-3.5-.1zm0 1.6c2.3 0 2.5 0 3.4.1 1.6.1 2.4.9 2.5 2.5.1.9.1 1.1.1 3.4s0 2.5-.1 3.4c-.1 1.6-.9 2.4-2.5 2.5-.9.1-1.1.1-3.4.1s-2.5 0-3.4-.1c-1.6-.1-2.4-.9-2.5-2.5-.1-.9-.1-1.1-.1-3.4s0-2.5.1-3.4c.1-1.6.9-2.4 2.5-2.5.9-.1 1.1-.1 3.4-.1z"/>',
+  linkedin: '<path d="M6.9 9.5H4V20h2.9V9.5zM5.4 4.4a1.7 1.7 0 1 0 0 3.400 1.7 1.7 0 0 0 0-3.400zM20 13.700c0-2.800-1.500-4.400-3.800-4.400-1.200 0-2.100.6-2.600 1.300V9.500h-2.800V20h2.900v-5.600c0-1.500.8-2.300 1.900-2.300s1.700.8 1.700 2.300V20H20v-6.300z"/>',
+  tiktok: '<path d="M16.6 3.500c.3 2 1.500 3.300 3.400 3.500v2.700c-1.200 0-2.300-.4-3.300-1v6.200a5.400 5.400 0 1 1-5.400-5.400c.3 0 .6 0 .9.1v2.800a2.700 2.700 0 1 0 1.800 2.500V3.500h2.600z"/>',
+  email: '<path d="M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm1.600 1.800L12 12.600l6.400-4.800-.2-.2H5.800l-.2.200zM5 9.900V16h14V9.900l-7 5.200-7-5.200z"/>',
+};
+function socials() {
+  const list = [];
+  if (contact.fanpage) list.push(['Facebook', contact.fanpage, 'facebook']);
+  if (contact.instagram) list.push(['Instagram', contact.instagram, 'instagram']);
+  if (contact.tiktok) list.push(['TikTok', contact.tiktok, 'tiktok']);
+  if (contact.linkedin) list.push(['LinkedIn', contact.linkedin, 'linkedin']);
+  if (contact.email) list.push(['Email', 'mailto:' + contact.email, 'email']);
+  if (!list.length) return '';
+  return `<div class="socials">${list
+    .map(([l, h, k]) => `<a class="soc" ${h.startsWith('mailto:') ? `href="${esc(h)}"` : ext(h)} aria-label="${l}" title="${l}"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">${ICONS[k]}</svg></a>`)
+    .join('')}</div>`;
+}
+
 function contactItems() {
   const items = [];
-  if (contact.fanpage) items.push(['Fanpage', `<a ${ext(contact.fanpage)}>SIV – StartInnova Club</a>`]);
+  if (contact.address) items.push(['Địa chỉ', esc(contact.address)]);
   if (contact.email) items.push(['Email', `<a href="mailto:${esc(contact.email)}">${esc(contact.email)}</a>`]);
   if (contact.phone) items.push(['Điện thoại', `<a href="tel:${esc(contact.phone.replace(/\s/g, ''))}">${esc(contact.phone)}</a>`]);
-  if (contact.address) items.push(['Địa chỉ', esc(contact.address)]);
-  for (const [k, label] of [['instagram', 'Instagram'], ['tiktok', 'TikTok'], ['linkedin', 'LinkedIn']]) {
-    if (contact[k]) items.push([label, `<a ${ext(contact[k])}>${label}</a>`]);
-  }
   items.push(['Website', `<a href="${esc(site.url)}">${esc(site.url.replace(/^https?:\/\//, ''))}</a>`]);
   return items;
 }
@@ -122,6 +138,7 @@ function footer() {
   <div>
     <h4>Liên hệ</h4>
     <ul>${items.map(([l, v]) => `<li>${l}: ${v}</li>`).join('')}</ul>
+    ${socials()}
   </div>
   <div>
     <h4>Trực thuộc</h4>
@@ -479,7 +496,7 @@ function lienHePage() {
     body: `${phero('Liên hệ', site.org)}
 <section class="sec"><div class="svc contact">${items
       .map(([l, v], i) => `<div><small>${num(i)}</small><h4>${l}</h4><p>${v}</p></div>`)
-      .join('')}</div></section>`,
+      .join('')}${socials() ? `<div><small>${num(items.length)}</small><h4>Kênh truyền thông</h4><div>${socials()}</div></div>` : ''}</div></section>`,
   });
 }
 
